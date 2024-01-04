@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="greeting_default_text">Добро пожаловать в R Chat!</string>
+    <string name="authorization_text">Авторизация</string>
+    <string name="required_text">Обязательно</string>
+    <string name="password_text">Пароль</string>
+    <string name="registration_text">Регистрация</string>
+    <string name="forgot_password_text">Забыли пароль?</string>
+    <string name="incorrect_email_text">Неверный e-mail</string>
+    <string name="short_password_text">Короткий пароль</string>
+</resources>

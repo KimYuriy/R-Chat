@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">R Chat</string>
+    <string name="greeting_default_text">Welcome to R Chat!</string>
+    <string name="authorization_text">Authorization</string>
+    <string name="required_text">Required</string>
+    <string name="e_mail_text" translatable="false">E-mail</string>
+    <string name="password_text">Password</string>
+    <string name="registration_text">Registration</string>
+    <string name="forgot_password_text">Forgot password?</string>
+    <string name="incorrect_email_text">Incorrect e-mail</string>
+    <string name="short_password_text">Short password</string>
+</resources>
