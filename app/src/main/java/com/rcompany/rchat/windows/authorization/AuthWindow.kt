@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.rcompany.rchat.databinding.AuthWindowBinding
 import com.rcompany.rchat.utils.ViewModelsFactory
 import com.rcompany.rchat.windows.authorization.viewmodels.AuthViewModel
+import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
 
 class AuthWindow : AppCompatActivity() {
     private lateinit var b: AuthWindowBinding
@@ -52,7 +53,7 @@ class AuthWindow : AppCompatActivity() {
          * Обработка нажатия кнопки авторизации
          */
         b.btnAuthorize.setOnClickListener {
-            vm.onLoginClicked(this, b.etEmail.text.toString(), b.etPassword.text.toString())
+            vm.onLoginClicked(this, AuthDataClass(b.etEmail.text.toString(), b.etPassword.text.toString()))
         }
 
         /**

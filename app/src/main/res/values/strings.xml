@@ -9,4 +9,8 @@
     <string name="forgot_password_text">Forgot password?</string>
     <string name="incorrect_email_text">Incorrect e-mail</string>
     <string name="short_password_text">Short password</string>
+    <string name="login_text">Login</string>
+    <string name="unique_id_text">Unique ID</string>
+    <string name="repeat_password_text">Repeat password</string>
+    <string name="already_have_account_text">Already have account?</string>
 </resources>

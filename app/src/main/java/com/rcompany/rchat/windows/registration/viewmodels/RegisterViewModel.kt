@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.authorization.viewmodels
+package com.rcompany.rchat.windows.registration.viewmodels
 
 import android.content.Context
 import android.content.Intent
@@ -7,13 +7,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
 import com.rcompany.rchat.utils.databases.user.UserRepo
-import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
-import com.rcompany.rchat.windows.registration.RegisterWindow
+import com.rcompany.rchat.windows.authorization.AuthWindow
+import com.rcompany.rchat.windows.registration.viewmodels.data.RegisterDataClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
+class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
+    fun onAuthClicked(from: AppCompatActivity) {
+        from.apply {
+            startActivity(Intent(from, AuthWindow::class.java))
+            finish()
+        }
+    }
+
+    fun onRegisterBtnClicked(from: AppCompatActivity, data: RegisterDataClass) = GlobalScope.launch(Dispatchers.IO) {
+
+    }
 
     /**
      * Функция определения текста-подсказки для поля e-mail.
@@ -33,29 +43,5 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
     fun getPasswordHelperText(context: Context, source: String): String? {
         if (source.length < 4) return context.getString(R.string.short_password_text)
         return null
-    }
-
-    /**
-     * Функция авторизации в приложении.
-     */
-    fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = GlobalScope.launch(Dispatchers.IO) {
-
-    }
-
-    /**
-     * Функция открытия окна регистрации
-     */
-    fun onRegisterClicked(from: AppCompatActivity) {
-        from.apply {
-            startActivity(Intent(from, RegisterWindow::class.java))
-            finish()
-        }
-    }
-
-    /**
-     * Функция открытия окна восстановления пароля
-     */
-    fun onForgotPasswordClicked(from: AppCompatActivity) {
-
     }
 }

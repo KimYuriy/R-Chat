@@ -8,4 +8,8 @@
     <string name="forgot_password_text">Забыли пароль?</string>
     <string name="incorrect_email_text">Неверный e-mail</string>
     <string name="short_password_text">Короткий пароль</string>
+    <string name="login_text">Логин</string>
+    <string name="unique_id_text">Уникальный ID</string>
+    <string name="repeat_password_text">Повторите пароль</string>
+    <string name="already_have_account_text">Уже есть аккаунт?</string>
 </resources>
