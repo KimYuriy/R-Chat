@@ -13,12 +13,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+/**
+ * Класс-контроллер состоянием AuthWindow типа [ViewModel]
+ * @property userRepo репозиторий БД пользователя типа [UserRepo]
+ */
 class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
 
     /**
      * Функция определения текста-подсказки для поля e-mail.
      * Если введенный текст не соответствует паттерну e-mail (нет символа '@' или '.'), то возвращает
      * текст ошибки, в противном случае возвращает null
+     * @param context контекст приложения типа [Context], в котором выполняется функция
+     * @param source отслеживаемая строка типа [String]
+     * @return строка с текстом ошибки или null
      */
     fun getEmailHelperText(context: Context, source: String): String? {
         if (!Patterns.EMAIL_ADDRESS.matcher(source).matches()) return context.getString(R.string.incorrect_email_text)
@@ -29,6 +36,9 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * Функция определения текста-подсказки для поля пароля.
      * Если длина введенного текста менее 4, то возвращает текст ошибки, в противном случае
      * возвращает null
+     * @param context контекст приложения типа [Context], в котором выполняется функция
+     * @param source отслеживаемая строка типа [String]
+     * @return строка с текстом ошибки или null
      */
     fun getPasswordHelperText(context: Context, source: String): String? {
         if (source.length < 4) return context.getString(R.string.short_password_text)
@@ -37,6 +47,8 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
 
     /**
      * Функция авторизации в приложении.
+     * @param from окно типа [AppCompatActivity], в котором была вызвана функция
+     * @param data данные авторизации типа [AuthDataClass]
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = GlobalScope.launch(Dispatchers.IO) {
 
@@ -44,6 +56,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
 
     /**
      * Функция открытия окна регистрации
+     * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      */
     fun onRegisterClicked(from: AppCompatActivity) {
         from.apply {
@@ -54,6 +67,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
 
     /**
      * Функция открытия окна восстановления пароля
+     * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      */
     fun onForgotPasswordClicked(from: AppCompatActivity) {
 

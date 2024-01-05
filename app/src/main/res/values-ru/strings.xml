@@ -12,4 +12,5 @@
     <string name="unique_id_text">Уникальный ID</string>
     <string name="repeat_password_text">Повторите пароль</string>
     <string name="already_have_account_text">Уже есть аккаунт?</string>
+    <string name="hello_text">Здравствуйте</string>
 </resources>

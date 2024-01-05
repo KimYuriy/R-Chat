@@ -4,13 +4,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.rcompany.rchat.databinding.RegistrationWindowBinding
 import com.rcompany.rchat.utils.ViewModelsFactory
 import com.rcompany.rchat.windows.registration.viewmodels.RegisterViewModel
 import com.rcompany.rchat.windows.registration.viewmodels.data.RegisterDataClass
 
+/**
+ * Класс окна регистрации типа [AppCompatActivity]
+ */
 class RegisterWindow : AppCompatActivity() {
     private lateinit var b: RegistrationWindowBinding
     private lateinit var vm: RegisterViewModel
@@ -21,6 +23,9 @@ class RegisterWindow : AppCompatActivity() {
 
         vm = ViewModelProvider(this, ViewModelsFactory.getRegisterViewModel())[RegisterViewModel::class.java]
 
+        /**
+         * Отслеживание изменений в поле ввода e-mail
+         */
         b.etEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -32,6 +37,9 @@ class RegisterWindow : AppCompatActivity() {
             }
         })
 
+        /**
+         * Отслеживание изменений в поле ввода логина
+         */
         b.etLogin.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -43,6 +51,9 @@ class RegisterWindow : AppCompatActivity() {
             }
         })
 
+        /**
+         * Отслеживание изменений в поле ввода уникального ID
+         */
         b.etUniqueID.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -54,6 +65,9 @@ class RegisterWindow : AppCompatActivity() {
             }
         })
 
+        /**
+         * Отслеживание изменений в поле ввода пароля
+         */
         b.etPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -65,6 +79,9 @@ class RegisterWindow : AppCompatActivity() {
             }
         })
 
+        /**
+         * Отслеживание изменений в поле ввода повторения пароля
+         */
         b.etRepeatPassword.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -76,10 +93,16 @@ class RegisterWindow : AppCompatActivity() {
             }
         })
 
+        /**
+         * Обработка нажатия текста авторизации
+         */
         b.tvAlreadyHaveAccount.setOnClickListener {
             vm.onAuthClicked(this)
         }
 
+        /**
+         * Обработка нажатия текста авторизации
+         */
         b.btnRegister.setOnClickListener {
             vm.onRegisterBtnClicked(
                 this,
@@ -93,6 +116,12 @@ class RegisterWindow : AppCompatActivity() {
         }
     }
 
+    /**
+     * Функция установки активности кнопки.
+     * Если все тексты-подсказки равны null (т.е. все введенные в поля тексты корректны и проходят
+     * по условиям), то кнопка становится активной, в противном случае - неактивной
+     * @return true/false [Boolean]
+     */
     private fun setRegisterBtnEnabled() {
         b.btnRegister.isEnabled =
             b.tilEmail.helperText == null && b.tilLogin.helperText == null &&

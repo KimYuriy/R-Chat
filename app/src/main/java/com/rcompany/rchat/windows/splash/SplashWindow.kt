@@ -7,6 +7,9 @@ import com.rcompany.rchat.databinding.SplashWindowBinding
 import com.rcompany.rchat.utils.ViewModelsFactory
 import com.rcompany.rchat.windows.splash.viewmodels.SplashViewModel
 
+/**
+ * Класс окна приветственного экрана типа [AppCompatActivity]
+ */
 class SplashWindow : AppCompatActivity() {
     private lateinit var b: SplashWindowBinding
     private lateinit var vm: SplashViewModel

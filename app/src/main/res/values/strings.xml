@@ -13,4 +13,5 @@
     <string name="unique_id_text">Unique ID</string>
     <string name="repeat_password_text">Repeat password</string>
     <string name="already_have_account_text">Already have account?</string>
+    <string name="hello_text">Hello</string>
 </resources>

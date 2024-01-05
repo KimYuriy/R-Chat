@@ -10,6 +10,9 @@ import com.rcompany.rchat.utils.ViewModelsFactory
 import com.rcompany.rchat.windows.authorization.viewmodels.AuthViewModel
 import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
 
+/**
+ * Класс окна авторизации типа [AppCompatActivity]
+ */
 class AuthWindow : AppCompatActivity() {
     private lateinit var b: AuthWindowBinding
     private lateinit var vm: AuthViewModel
