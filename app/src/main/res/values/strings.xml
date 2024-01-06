@@ -19,4 +19,7 @@
     <string name="didnt_get_verification_code_text">Didn\'t get verification code?</string>
     <string name="enter_verification_code_text">Enter verification code sent to your e-mail</string>
     <string name="cancel_text">Cancel</string>
+    <string name="password_recovery_text">Password Recovery</string>
+    <string name="email_password_newpassword_text">Enter your e-mail used in registration, new password and repeat it</string>
+    <string name="new_password_text">New password</string>
 </resources>

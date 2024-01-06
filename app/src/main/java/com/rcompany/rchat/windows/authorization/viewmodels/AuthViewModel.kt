@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
+import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
 import com.rcompany.rchat.windows.registration.RegisterWindow
@@ -57,7 +58,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные авторизации типа [AuthDataClass]
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = GlobalScope.launch(Dispatchers.IO) {
-        val dialog = showCodeConfirmDialog(from)
+        val dialog = getCodeConfirmDialog(from)
         withContext(Dispatchers.Main) {
             dialog.create().show()
         }
@@ -79,7 +80,25 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      */
     fun onForgotPasswordClicked(from: AppCompatActivity) {
+        val dialog = getRecoveryPasswordDialog(from)
+        dialog.create().show()
+    }
 
+    /**
+     * Функция создания диалогового окна сброса пароля
+     * @param from окно типа [AppCompatActivity], в котором вызвана функция
+     * @return диалоговое окно типа [AlertDialog.Builder]
+     */
+    private fun getRecoveryPasswordDialog(from: AppCompatActivity): AlertDialog.Builder {
+        val b = PasswordRecoveryAlertBinding.inflate(from.layoutInflater)
+        val dialog = AlertDialog.Builder(from)
+        dialog.apply {
+            setView(b.root)
+            setPositiveButton("Отправить", null) //TODO: Добавить событие на нажатие кнопки
+            setNegativeButton(from.getString(R.string.cancel_text), null)
+            setCancelable(true)
+        }
+        return dialog
     }
 
     /**
@@ -87,7 +106,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором вызвана функция
      * @return диалоговое окно типа [AlertDialog.Builder]
      */
-    private fun showCodeConfirmDialog(from: AppCompatActivity): AlertDialog.Builder {
+    private fun getCodeConfirmDialog(from: AppCompatActivity): AlertDialog.Builder {
         val b = CodeConfirmAlertBinding.inflate(from.layoutInflater)
         b.etVerificationCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {

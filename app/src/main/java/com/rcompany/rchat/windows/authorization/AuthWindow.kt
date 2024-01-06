@@ -78,6 +78,7 @@ class AuthWindow : AppCompatActivity() {
      * Функция установки доступности кнопки авторизации.
      * Если тексты-подсказки у полей e-mail и пароля не null, то кнопка становится активной, в
      * противном случае она становится неактивной
+     * @return true/false [Boolean]
      */
     private fun setAuthBtnEnabled() {
         b.btnAuthorize.isEnabled = b.tilEmail.helperText == null && b.tilPassword.helperText == null

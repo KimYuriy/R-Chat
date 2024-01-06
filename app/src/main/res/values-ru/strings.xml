@@ -17,5 +17,8 @@
     <string name="verification_code_text">Код подтверждения</string>
     <string name="didnt_get_verification_code_text">Не получили код подтверждения?</string>
     <string name="enter_verification_code_text">Введите код подтверждения, высланный на указанную Вами почту</string>
-    <string name="cancel_text">Cancel</string>
+    <string name="cancel_text">Отмена</string>
+    <string name="password_recovery_text">Восстановление пароля</string>
+    <string name="email_password_newpassword_text">Введите e-mail, указанный при регистрации, новый пароль и повторите его</string>
+    <string name="new_password_text">Новый пароль</string>
 </resources>
