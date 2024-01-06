@@ -13,4 +13,9 @@
     <string name="repeat_password_text">Повторите пароль</string>
     <string name="already_have_account_text">Уже есть аккаунт?</string>
     <string name="hello_text">Здравствуйте</string>
+    <string name="registration_confirm_text">Подтверждение регистрации</string>
+    <string name="verification_code_text">Код подтверждения</string>
+    <string name="didnt_get_verification_code_text">Не получили код подтверждения?</string>
+    <string name="enter_verification_code_text">Введите код подтверждения, высланный на указанную Вами почту</string>
+    <string name="cancel_text">Cancel</string>
 </resources>

@@ -112,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:text="@string/forgot_password_text"
+            android:textColor="@color/light_blue"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

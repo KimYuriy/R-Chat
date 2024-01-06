@@ -2,16 +2,22 @@ package com.rcompany.rchat.windows.authorization.viewmodels
 
 import android.content.Context
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
+import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
 import com.rcompany.rchat.windows.registration.RegisterWindow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Класс-контроллер состоянием AuthWindow типа [ViewModel]
@@ -51,7 +57,10 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные авторизации типа [AuthDataClass]
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = GlobalScope.launch(Dispatchers.IO) {
-
+        val dialog = showCodeConfirmDialog(from)
+        withContext(Dispatchers.Main) {
+            dialog.create().show()
+        }
     }
 
     /**
@@ -71,5 +80,32 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun onForgotPasswordClicked(from: AppCompatActivity) {
 
+    }
+
+    /**
+     * Функция создания диалогового окна с полем ввода кода подтверждения
+     * @param from окно типа [AppCompatActivity], в котором вызвана функция
+     * @return диалоговое окно типа [AlertDialog.Builder]
+     */
+    private fun showCodeConfirmDialog(from: AppCompatActivity): AlertDialog.Builder {
+        val b = CodeConfirmAlertBinding.inflate(from.layoutInflater)
+        b.etVerificationCode.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                Log.e("INPUT", p0.toString())
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+        })
+        val dialog = AlertDialog.Builder(from)
+        dialog.apply {
+            setView(b.root)
+            setNegativeButton(from.getString(R.string.cancel_text), null)
+            setCancelable(false)
+        }
+        return dialog
     }
 }
