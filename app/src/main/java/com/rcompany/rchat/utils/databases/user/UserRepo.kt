@@ -29,14 +29,10 @@ class UserRepo private constructor(private val userDB: UserDB) {
 
     /**
      * Функция сохранения данных пользователя.
-     * Вызывает метод [saveUserData] из БД пользователя
-     * @param id идентификатор пользователя типа [Int]
-     * @param login логин пользователя типа [String]
-     * @param avatar строка аватарки пользователя типа null-[String]
+     * Вызывает метод [setUserData] из БД пользователя
+     * @param userData данные пользователя типа [UserDataClass]
      */
-    fun saveUserData(id: Int, login: String, avatar: String?) {
-        userDB.saveUserData(UserDataClass(id, login, avatar))
-    }
+    fun setUserData(userData: UserDataClass) = userDB.setUserData(userData)
 
     /**
      * Функция получения данных пользователя.
