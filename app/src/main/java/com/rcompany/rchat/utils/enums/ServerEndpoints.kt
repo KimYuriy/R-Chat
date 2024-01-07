@@ -2,13 +2,16 @@ package com.rcompany.rchat.utils.enums
 
 enum class ServerEndpoints {
     AUTH {
-        override val endpoint = "/auth"
+        override val endpoint = "auth"
     },
     REGISTER {
-        override val endpoint = "/register"
+        override val endpoint = "register"
     };
 
     abstract val endpoint: String
 
-    override fun toString() = endpoint
+    /**
+     * Переопределенный метод toString, возвращающий полный адрес сервера с установленным эндпоинтом
+     */
+    override fun toString() = "https://192.168.91.3/$endpoint"
 }

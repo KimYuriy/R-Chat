@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
