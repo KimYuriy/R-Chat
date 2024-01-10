@@ -10,7 +10,7 @@ import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.registration.viewmodels.RegisterViewModel
 import com.rcompany.rchat.windows.registration.viewmodels.RegisterViewModelFactory
-import com.rcompany.rchat.windows.registration.viewmodels.data.RegisterDataClass
+import com.rcompany.rchat.utils.databases.registration.RegisterDataClass
 
 /**
  * Класс окна регистрации типа [AppCompatActivity]

@@ -10,7 +10,7 @@ import com.rcompany.rchat.R
 import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.authorization.AuthWindow
-import com.rcompany.rchat.windows.registration.viewmodels.data.RegisterDataClass
+import com.rcompany.rchat.utils.databases.registration.RegisterDataClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

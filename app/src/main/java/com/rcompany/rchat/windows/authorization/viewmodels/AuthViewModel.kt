@@ -15,7 +15,7 @@ import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.enums.ServerEndpoints
-import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
+import com.rcompany.rchat.utils.databases.authorization.AuthDataClass
 import com.rcompany.rchat.windows.registration.RegisterWindow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -61,7 +61,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = GlobalScope.launch(Dispatchers.IO) {
         withContext(Dispatchers.Main) {
-            val dialog = getCodeConfirmDialog(from, ServerEndpoints.RESET_PASSWORD)
+            val dialog = getCodeConfirmDialog(from, ServerEndpoints.AUTH)
             dialog.show()
         }
     }

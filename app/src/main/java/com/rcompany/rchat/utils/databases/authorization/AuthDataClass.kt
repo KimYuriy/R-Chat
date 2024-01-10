@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.authorization.viewmodels.data
+package com.rcompany.rchat.utils.databases.authorization
 
 /**
  * Дата-класс данных, введенных при авторизации

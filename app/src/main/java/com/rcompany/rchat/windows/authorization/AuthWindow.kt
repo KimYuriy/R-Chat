@@ -10,7 +10,7 @@ import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.authorization.viewmodels.AuthViewModel
 import com.rcompany.rchat.windows.authorization.viewmodels.AuthViewModelFactory
-import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
+import com.rcompany.rchat.utils.databases.authorization.AuthDataClass
 
 /**
  * Класс окна авторизации типа [AppCompatActivity]

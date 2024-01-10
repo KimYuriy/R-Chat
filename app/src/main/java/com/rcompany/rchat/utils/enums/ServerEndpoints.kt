@@ -2,13 +2,10 @@ package com.rcompany.rchat.utils.enums
 
 enum class ServerEndpoints {
     AUTH {
-        override val endpoint = "auth"
+        override val endpoint = "authorization"
     },
     REGISTER {
         override val endpoint = "register"
-    },
-    RESET_PASSWORD {
-        override val endpoint = "${AUTH.endpoint}/reset"
     };
 
     abstract val endpoint: String

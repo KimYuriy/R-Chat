@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.registration.viewmodels.data
+package com.rcompany.rchat.utils.databases.registration
 
 /**
  * Дата-класс данных, введенных при регистрации
