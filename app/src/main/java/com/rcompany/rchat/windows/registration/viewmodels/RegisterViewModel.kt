@@ -2,10 +2,12 @@ package com.rcompany.rchat.windows.registration.viewmodels
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
+import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.authorization.AuthWindow
 import com.rcompany.rchat.windows.registration.viewmodels.data.RegisterDataClass
@@ -24,6 +26,8 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором вызвана функция
      */
     fun onAuthClicked(from: AppCompatActivity) {
+        Log.d("USER", userRepo.getUserData().toString())
+        userRepo.setUserData(UserDataClass(2, "ValikSilchenko", "NotGoodPhoto"))
         from.apply {
             startActivity(Intent(from, AuthWindow::class.java))
             finish()

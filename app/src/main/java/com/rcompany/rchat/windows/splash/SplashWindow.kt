@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.rcompany.rchat.databinding.SplashWindowBinding
-import com.rcompany.rchat.utils.ViewModelsFactory
+import com.rcompany.rchat.utils.databases.user.UserDB
+import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.splash.viewmodels.SplashViewModel
+import com.rcompany.rchat.windows.splash.viewmodels.SplashViewModelFactory
 
 /**
  * Класс окна приветственного экрана типа [AppCompatActivity]
@@ -19,7 +21,7 @@ class SplashWindow : AppCompatActivity() {
         b = SplashWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        vm = ViewModelProvider(this, ViewModelsFactory.getSplashScreenViewModel())[SplashViewModel::class.java]
+        vm = ViewModelProvider(this, SplashViewModelFactory(UserRepo.getInstance(UserDB.getInstance())))[SplashViewModel::class.java]
 
         /**
          * Установка приветственного текста

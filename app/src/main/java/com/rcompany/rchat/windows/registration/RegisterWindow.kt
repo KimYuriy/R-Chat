@@ -6,8 +6,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.ViewModelProvider
 import com.rcompany.rchat.databinding.RegistrationWindowBinding
-import com.rcompany.rchat.utils.ViewModelsFactory
+import com.rcompany.rchat.utils.databases.user.UserDB
+import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.registration.viewmodels.RegisterViewModel
+import com.rcompany.rchat.windows.registration.viewmodels.RegisterViewModelFactory
 import com.rcompany.rchat.windows.registration.viewmodels.data.RegisterDataClass
 
 /**
@@ -21,7 +23,7 @@ class RegisterWindow : AppCompatActivity() {
         b = RegistrationWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        vm = ViewModelProvider(this, ViewModelsFactory.getRegisterViewModel())[RegisterViewModel::class.java]
+        vm = ViewModelProvider(this, RegisterViewModelFactory(UserRepo.getInstance(UserDB.getInstance())))[RegisterViewModel::class.java]
 
         /**
          * Отслеживание изменений в поле ввода e-mail

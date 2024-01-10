@@ -6,6 +6,9 @@ enum class ServerEndpoints {
     },
     REGISTER {
         override val endpoint = "register"
+    },
+    RESET_PASSWORD {
+        override val endpoint = "${AUTH.endpoint}/reset"
     };
 
     abstract val endpoint: String

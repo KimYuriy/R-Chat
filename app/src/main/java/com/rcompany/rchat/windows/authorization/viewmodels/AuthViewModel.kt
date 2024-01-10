@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
+import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.enums.ServerEndpoints
 import com.rcompany.rchat.windows.authorization.viewmodels.data.AuthDataClass
@@ -60,7 +61,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = GlobalScope.launch(Dispatchers.IO) {
         withContext(Dispatchers.Main) {
-            val dialog = getCodeConfirmDialog(from, ServerEndpoints.AUTH)
+            val dialog = getCodeConfirmDialog(from, ServerEndpoints.RESET_PASSWORD)
             dialog.show()
         }
     }
@@ -70,6 +71,8 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      */
     fun onRegisterClicked(from: AppCompatActivity) {
+        Log.d("USER", userRepo.getUserData().toString())
+        userRepo.setUserData(UserDataClass(1, "KimYuriy", "ShooterPhoto"))
         from.apply {
             startActivity(Intent(from, RegisterWindow::class.java))
             finish()
@@ -82,7 +85,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun onForgotPasswordClicked(from: AppCompatActivity) {
         val dialog = getRecoveryPasswordDialog(from)
-        dialog.create().show()
+        dialog.show()
     }
 
     /**
@@ -90,15 +93,14 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором вызвана функция
      * @return диалоговое окно типа [AlertDialog.Builder]
      */
-    private fun getRecoveryPasswordDialog(from: AppCompatActivity): AlertDialog.Builder {
+    private fun getRecoveryPasswordDialog(from: AppCompatActivity): AlertDialog {
         val b = PasswordRecoveryAlertBinding.inflate(from.layoutInflater)
-        val dialog = AlertDialog.Builder(from)
-        dialog.apply {
+        val dialog = AlertDialog.Builder(from).apply {
             setView(b.root)
             setPositiveButton("Отправить", null) //TODO: Добавить событие на нажатие кнопки
             setNegativeButton(from.getString(R.string.cancel_text), null)
             setCancelable(true)
-        }
+        }.create()
         return dialog
     }
 
@@ -120,6 +122,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length == 6) {
+                    Log.d("USER", endpoint.toString())
                     //TODO: Добавить отправку кода подтверждения и получение ответа
                     dialog.cancel()
                 }
