@@ -1,9 +1,19 @@
 package com.rcompany.rchat.utils.enums
 
+/**
+ * Класс-энумератор эндпоинтов сервера, по которым будут отправляться различные запросы
+ */
 enum class ServerEndpoints {
+    /**
+     * Эндпоинт авторизации
+     */
     AUTH {
         override val endpoint = "authorization"
     },
+
+    /**
+     * Эндпоинт регистрации
+     */
     REGISTER {
         override val endpoint = "register"
     };

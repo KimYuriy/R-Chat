@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RChat"
         tools:targetApi="31">
         <activity
+            android:name=".windows.chats.ChatsWindow"
+            android:exported="false" />
+        <activity
             android:name=".windows.registration.RegisterWindow"
             android:exported="false">
             <intent-filter>
