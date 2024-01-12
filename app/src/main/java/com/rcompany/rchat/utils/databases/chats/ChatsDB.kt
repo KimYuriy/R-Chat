@@ -16,11 +16,10 @@ class ChatsDB private constructor() {
          * возвращается ранее созданный [instance], иначе создается новый, сохраняется и возвращается
          * @return экземпляр БД [instance] типа [ChatsDB]
          */
-        fun getInstance(): ChatsDB {
-            return instance ?: synchronized(this) {
+        fun getInstance() =
+            instance ?: synchronized(this) {
                 instance ?: ChatsDB().also {
                     instance = it
-                }
             }
         }
     }

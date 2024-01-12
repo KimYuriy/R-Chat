@@ -22,13 +22,12 @@ class UserDB private constructor() {
          * возвращается ранее созданный [instance], иначе создается новый, сохраняется и возвращается
          * @return экземпляр БД [instance] типа [UserDB]
          */
-        fun getInstance(): UserDB {
-            return instance ?: synchronized(this) {
+        fun getInstance() =
+            instance ?: synchronized(this) {
                 instance ?: UserDB().also {
                     instance = it
                 }
             }
-        }
 
         private const val USER_PREFS_KEY = "USER_PREFS"
         private const val USER_DATA_KEY = "USER_DATA"
@@ -69,8 +68,7 @@ class UserDB private constructor() {
         userData = if (data != null) {
             val obj = JSONObject(data)
             UserDataClass(obj["id"] as Int, obj["login"] as String, obj["avatar"] as String?)
-        }
-        else null
+        } else null
     }
 
     /**
