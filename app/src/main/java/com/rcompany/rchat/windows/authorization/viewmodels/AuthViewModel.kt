@@ -95,7 +95,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
         val b = PasswordRecoveryAlertBinding.inflate(from.layoutInflater)
         val dialog = AlertDialog.Builder(from).apply {
             setView(b.root)
-            setPositiveButton("Отправить", null) //TODO: Добавить событие на нажатие кнопки
+            setPositiveButton(from.getString(R.string.send_text), null) //TODO: Добавить событие на нажатие кнопки
             setNegativeButton(from.getString(R.string.cancel_text), null)
             setCancelable(true)
         }.create()
@@ -120,7 +120,6 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length == 6) {
-                    Log.d("USER", endpoint.toString())
                     //TODO: Добавить отправку кода подтверждения и получение ответа
                     dialog.cancel()
                 }

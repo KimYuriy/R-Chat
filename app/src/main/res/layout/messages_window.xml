@@ -30,6 +30,7 @@
 
         <TextView
             android:id="@+id/tvLogin"
+            android:textColor="?attr/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -78,8 +79,9 @@
         <EditText
             android:id="@+id/etMessage"
             android:layout_width="0dp"
+            android:textColorHint="?attr/hintColor"
             android:layout_height="wrap_content"
-            android:hint="Введите сообщение"
+            android:hint="@string/enter_message_text"
             android:inputType="textMultiLine|textCapSentences"
             android:maxHeight="150dp"
             android:maxLines="5"

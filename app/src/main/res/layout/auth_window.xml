@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Верхний текст -->
         <TextView
             android:id="@+id/tvAuth"
             android:layout_width="wrap_content"
@@ -18,6 +17,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="15dp"
             android:text="@string/authorization_text"
+            android:textColor="?attr/textColor"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@id/tilEmail"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
             android:layout_marginVertical="15dp"
             app:boxBackgroundMode="filled"
             app:helperText="@string/required_text"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="?attr/helperColor"
             app:layout_constraintBottom_toTopOf="@id/tilPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,8 @@
                 android:autofillHints="emailAddress"
                 android:hint="@string/e_mail_text"
                 android:inputType="textEmailAddress"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -56,7 +57,7 @@
             android:layout_marginVertical="15dp"
             app:boxBackgroundMode="filled"
             app:helperText="@string/required_text"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="?attr/helperColor"
             app:layout_constraintBottom_toTopOf="@id/btnAuthorize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,10 +71,10 @@
                 android:autofillHints="password"
                 android:hint="@string/password_text"
                 android:inputType="textPassword"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Кнопка авторизации -->
         <Button
             android:id="@+id/btnAuthorize"
             android:layout_width="250dp"
@@ -90,7 +91,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
-        <!-- Кнопка перехода в окно регистрации -->
         <Button
             android:id="@+id/btnRegistration"
             android:layout_width="250dp"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:text="@string/forgot_password_text"
-            android:textColor="@color/light_blue"
+            android:textColor="?attr/clickableTextColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

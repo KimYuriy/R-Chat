@@ -4,4 +4,11 @@
         <item name="colorPrimary">@color/orange</item>
 
     </style>
+    <style name="Theme.RChat" parent="Base.Theme.RChat">
+        <item name="textColor">@color/white</item>
+        <item name="hintColor">@color/grey</item>
+        <item name="helperColor">@color/red</item>
+        <item name="youTextColor">@color/dark_grey</item>
+        <item name="clickableTextColor">@color/light_blue</item>
+    </style>
 </resources>

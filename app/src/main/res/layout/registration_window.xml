@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Верхний текст -->
         <TextView
             android:id="@+id/tvRegistration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:text="@string/registration_text"
+            android:textColor="?attr/textColor"
             android:textSize="25sp"
             app:layout_constraintBottom_toTopOf="@id/tilEmail"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +31,7 @@
             android:layout_marginTop="20dp"
             app:boxBackgroundMode="filled"
             app:helperText="@string/required_text"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="?attr/helperColor"
             app:layout_constraintBottom_toTopOf="@id/tilLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,8 @@
                 android:background="@android:color/transparent"
                 android:hint="@string/e_mail_text"
                 android:inputType="textEmailAddress"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +59,7 @@
             app:counterEnabled="true"
             app:counterMaxLength="60"
             app:helperText="@string/required_text"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="?attr/helperColor"
             app:layout_constraintBottom_toTopOf="@id/tilUniqueID"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +74,8 @@
                 android:hint="@string/login_text"
                 android:inputType="text"
                 android:maxLength="60"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -86,7 +88,7 @@
             app:counterEnabled="true"
             app:counterMaxLength="20"
             app:helperText="@string/required_text"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="?attr/helperColor"
             app:layout_constraintBottom_toTopOf="@id/tilPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +102,8 @@
                 android:hint="@string/unique_id_text"
                 android:inputType="text"
                 android:maxLength="20"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -113,7 +116,7 @@
             app:counterEnabled="true"
             app:counterMaxLength="60"
             app:helperText="@string/required_text"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="?attr/helperColor"
             app:layout_constraintBottom_toTopOf="@id/tilRepeatPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -128,7 +131,8 @@
                 android:hint="@string/password_text"
                 android:inputType="textPassword"
                 android:maxLength="60"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -141,7 +145,7 @@
             app:counterEnabled="true"
             app:counterMaxLength="60"
             app:helperText="@string/required_text"
-            app:helperTextTextColor="@color/red"
+            app:helperTextTextColor="?attr/helperColor"
             app:layout_constraintBottom_toTopOf="@id/btnRegister"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -156,10 +160,10 @@
                 android:hint="@string/repeat_password_text"
                 android:inputType="textPassword"
                 android:maxLength="60"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Кнопка регистрации -->
         <Button
             android:id="@+id/btnRegister"
             android:layout_width="250dp"
@@ -182,7 +186,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:text="@string/already_have_account_text"
-            android:textColor="@color/light_blue"
+            android:textColor="?attr/clickableTextColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

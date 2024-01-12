@@ -39,6 +39,7 @@
                 android:layout_gravity="start"
                 android:paddingStart="3dp"
                 android:text="Left login"
+                android:textColor="?attr/textColor"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -56,6 +57,7 @@
                     android:maxWidth="300dp"
                     android:padding="3dp"
                     android:text="Message"
+                    android:textColor="?attr/textColor"
                     android:textSize="15sp" />
 
                 <TextView
@@ -67,6 +69,7 @@
                     android:paddingEnd="3dp"
                     android:paddingBottom="3dp"
                     android:text="10.01.2024 21:14"
+                    android:textColor="?attr/textColor"
                     android:textSize="12sp"
                     android:textStyle="italic" />
             </LinearLayout>
@@ -95,6 +98,7 @@
                 android:maxWidth="300dp"
                 android:padding="3dp"
                 android:text="Message"
+                android:textColor="?attr/textColor"
                 android:textSize="15sp" />
 
             <TextView
@@ -106,6 +110,7 @@
                 android:paddingEnd="3dp"
                 android:paddingBottom="3dp"
                 android:text="10.01.2024 21:14"
+                android:textColor="?attr/textColor"
                 android:textSize="12sp"
                 android:textStyle="italic" />
         </LinearLayout>

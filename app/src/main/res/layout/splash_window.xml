@@ -7,21 +7,22 @@
     tools:context=".windows.splash.SplashWindow">
 
     <ImageView
+        android:id="@+id/ivLogo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:id="@+id/ivLogo"
         android:src="@drawable/img_message"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvGreeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
         android:layout_marginTop="20dp"
+        android:textColor="?attr/textColor"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivLogo" />
