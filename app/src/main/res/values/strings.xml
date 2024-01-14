@@ -22,7 +22,9 @@
     <string name="password_recovery_text">Password Recovery</string>
     <string name="email_password_newpassword_text">Enter your e-mail used in registration, new password and repeat it</string>
     <string name="new_password_text">New password</string>
-    <string name="you_text">You:</string>
+    <string name="you_text">You: </string>
     <string name="enter_message_text">Enter message</string>
     <string name="send_text">Send</string>
+    <string name="new_chat_menu_text">Новый чат...</string>
+    <string name="new_group_chat_menu_text">Новая беседа...</string>
 </resources>

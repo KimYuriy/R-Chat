@@ -26,6 +26,8 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором вызвана функция
      */
     fun onAuthClicked(from: AppCompatActivity) {
+        userRepo.setUserData(UserDataClass(2, "ValikSilchenko", "NotBasedPhoto"))
+        Log.i("USER", userRepo.getUserData().value.toString())
         from.apply {
             startActivity(Intent(from, AuthWindow::class.java))
             finish()

@@ -23,7 +23,10 @@ class RegisterWindow : AppCompatActivity() {
         b = RegistrationWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        vm = ViewModelProvider(this, RegisterViewModelFactory(UserRepo.getInstance(UserDB.getInstance())))[RegisterViewModel::class.java]
+        val factory = RegisterViewModelFactory(
+            UserRepo.getInstance(UserDB.getInstance(applicationContext))
+        )
+        vm = ViewModelProvider(this, factory)[RegisterViewModel::class.java]
 
         /**
          * Отслеживание изменений в поле ввода e-mail

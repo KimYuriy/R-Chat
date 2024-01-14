@@ -2,6 +2,8 @@ package com.rcompany.rchat.utils.databases.user
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import org.json.JSONObject
@@ -9,7 +11,7 @@ import org.json.JSONObject
 /**
  * База данных пользователя
  */
-class UserDB private constructor() {
+class UserDB private constructor(private val applicationContext: Context) {
     companion object {
         /**
          * Экземпляр БД типа null-[UserDB]
@@ -22,9 +24,9 @@ class UserDB private constructor() {
          * возвращается ранее созданный [instance], иначе создается новый, сохраняется и возвращается
          * @return экземпляр БД [instance] типа [UserDB]
          */
-        fun getInstance() =
+        fun getInstance(applicationContext: Context) =
             instance ?: synchronized(this) {
-                instance ?: UserDB().also {
+                instance ?: UserDB(applicationContext).also {
                     instance = it
                 }
             }
@@ -34,38 +36,41 @@ class UserDB private constructor() {
     }
 
     /**
-     * Функция записи данных пользователя в поле [userData].
-     * Записывает переданные данные в поле [userData] типа [UserDataClass]
-     * @param pUserData данные пользователя типа [UserDataClass]
+     * Поле данных пользователя типа [UserDataClass]
      */
-    fun setUserData(pUserData: UserDataClass?) {
-        userData = pUserData
+    private val _userLiveData = MutableLiveData<UserDataClass>()
+
+    /**
+     * Функция записи данных пользователя в поле [_userLiveData].
+     * Записывает переданные данные в поле [_userLiveData] типа [UserDataClass]
+     * @param userData данные пользователя типа [UserDataClass]
+     */
+    fun setUserData(userData: UserDataClass?) {
+        _userLiveData.value = userData
     }
 
     /**
      * Функция сохранения данных пользователя в память приложения.
-     * Преобразует данные из [userData] в JSON-объект и сохраняет объект в виде строки в
+     * Преобразует данные из [_userLiveData] в JSON-объект и сохраняет объект в виде строки в
      * EncryptedSharedPreferences
-     * @param context контекст типа [Context], в котором происходит сохранение
      */
-    fun saveUserData(context: Context) {
+    fun saveUserData() {
         val obj = JSONObject().apply {
-            put("id", userData?.id)
-            put("login", userData?.login)
-            put("avatar", userData?.avatar ?: JSONObject.NULL)
+            put("id", _userLiveData.value?.id)
+            put("login", _userLiveData.value?.login)
+            put("avatar", _userLiveData.value?.avatar ?: JSONObject.NULL)
         }
-        getEncryptedSharedPrefs(context).edit().putString(USER_DATA_KEY, obj.toString()).apply()
+        getEncryptedSharedPrefs().edit().putString(USER_DATA_KEY, obj.toString()).apply()
     }
 
     /**
      * Функция загрузки сохраненных в EncryptedSharedPreferences данных пользователя.
      * Загружается строка и, если она не null, преобразуется в JSON-объект и сохраняется в
-     * [userData] с соответствующими полями
-     * @param context контекст типа [Context], в котором происходит сохранение
+     * [_userLiveData] с соответствующими полями
      */
-    fun loadUserData(context: Context) {
-        val data = getEncryptedSharedPrefs(context).getString(USER_DATA_KEY, null)
-        userData = if (data != null) {
+    fun loadUserData() {
+        val data = getEncryptedSharedPrefs().getString(USER_DATA_KEY, null)
+        _userLiveData.value = if (data != null) {
             val obj = JSONObject(data)
             UserDataClass(obj["id"] as Int, obj["login"] as String, obj["avatar"] as String?)
         } else null
@@ -73,30 +78,25 @@ class UserDB private constructor() {
 
     /**
      * Функция получения данных пользователя.
-     * @return поле данных пользователя [userData] типа [UserDataClass]
+     * @return поле данных пользователя [_userLiveData] типа [UserDataClass]
      */
-    fun getUserData() = userData
+    fun getUserData() = _userLiveData as LiveData<UserDataClass?>
 
     /**
      * Функция получения зашифрованной SharedPreferences
-     * @param context контекст типа [Context], в котором происходит вызов SharedPreferences
      * @return БД типа [SharedPreferences]
      */
-    private fun getEncryptedSharedPrefs(context: Context): SharedPreferences {
-        val masterKey = MasterKey.Builder(context).apply {
+    private fun getEncryptedSharedPrefs(): SharedPreferences {
+        val masterKey = MasterKey.Builder(applicationContext).apply {
             setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         }.build()
+
         return EncryptedSharedPreferences.create(
-            context,
+            applicationContext,
             USER_PREFS_KEY,
             masterKey,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
     }
-
-    /**
-     * Поле данных пользователя типа [UserDataClass]
-     */
-    private var userData: UserDataClass? = null
 }

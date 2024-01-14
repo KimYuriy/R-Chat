@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.authorization.AuthWindow
+import com.rcompany.rchat.windows.chats.ChatsWindow
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -25,10 +26,9 @@ class SplashViewModel(private val userRepo: UserRepo) : ViewModel() {
      */
     fun openNextWindowAfterDelay(from: AppCompatActivity, delay: Long) {
         Timer().schedule(delay) {
-            if (!userRepo.isUserAuthorized()) {
-                from.startActivity(Intent(from, AuthWindow::class.java))
-                from.finish()
-            }
+            val to = if (!userRepo.isUserAuthorized()) AuthWindow::class.java else ChatsWindow::class.java
+            from.startActivity(Intent(from, to))
+            from.finish()
         }
     }
 
@@ -41,6 +41,6 @@ class SplashViewModel(private val userRepo: UserRepo) : ViewModel() {
      */
     fun getGreetingText(from: AppCompatActivity) =
         if (userRepo.isUserAuthorized())
-            "${from.getString(R.string.hello_text)}, ${userRepo.getUserData()?.login}"
+            "${from.getString(R.string.hello_text)}, ${userRepo.getUserData().value?.login}"
         else from.getString(R.string.greeting_default_text)
 }

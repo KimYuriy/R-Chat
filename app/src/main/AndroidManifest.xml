@@ -20,13 +20,10 @@
             android:exported="false" />
         <activity
             android:name=".windows.registration.RegisterWindow"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
+        <activity
+            android:name=".windows.authorization.AuthWindow"
+            android:exported="false" />
         <activity
             android:name=".windows.splash.SplashWindow"
             android:exported="true">
@@ -34,15 +31,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".windows.authorization.AuthWindow"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

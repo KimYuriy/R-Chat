@@ -47,5 +47,5 @@ class UserRepo private constructor(private val userDB: UserDB) {
      * то пользователь считается авторизованным, иначе - не авторизован
      * @return true/false типа [Boolean]
      */
-    fun isUserAuthorized() = getUserData() != null
+    fun isUserAuthorized() = getUserData().value != null
 }

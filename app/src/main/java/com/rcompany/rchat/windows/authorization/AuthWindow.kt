@@ -24,7 +24,10 @@ class AuthWindow : AppCompatActivity() {
         b = AuthWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        vm = ViewModelProvider(this, AuthViewModelFactory(UserRepo.getInstance(UserDB.getInstance())))[AuthViewModel::class.java]
+        val factory = AuthViewModelFactory(
+            UserRepo.getInstance(UserDB.getInstance(applicationContext))
+        )
+        vm = ViewModelProvider(this, factory)[AuthViewModel::class.java]
 
         /**
          * Отслеживание изменений в поле ввода e-mail

@@ -21,7 +21,10 @@ class SplashWindow : AppCompatActivity() {
         b = SplashWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        vm = ViewModelProvider(this, SplashViewModelFactory(UserRepo.getInstance(UserDB.getInstance())))[SplashViewModel::class.java]
+        val factory = SplashViewModelFactory(
+            UserRepo.getInstance(UserDB.getInstance(applicationContext))
+        )
+        vm = ViewModelProvider(this, factory)[SplashViewModel::class.java]
 
         /**
          * Установка приветственного текста

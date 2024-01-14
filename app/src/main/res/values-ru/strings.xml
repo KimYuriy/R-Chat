@@ -21,7 +21,9 @@
     <string name="password_recovery_text">Восстановление пароля</string>
     <string name="email_password_newpassword_text">Введите e-mail, указанный при регистрации, новый пароль и повторите его</string>
     <string name="new_password_text">Новый пароль</string>
-    <string name="you_text">You:</string>
+    <string name="you_text">Вы: </string>
     <string name="enter_message_text">Введите сообщение</string>
     <string name="send_text">Отправить</string>
+    <string name="new_chat_menu_text">Новый чат...</string>
+    <string name="new_group_chat_menu_text">Новая беседа...</string>
 </resources>

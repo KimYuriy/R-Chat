@@ -12,13 +12,13 @@ import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
-import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.enums.ServerEndpoints
 import com.rcompany.rchat.utils.databases.authorization.AuthDataClass
+import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.windows.registration.RegisterWindow
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -59,7 +59,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      * @param data данные авторизации типа [AuthDataClass]
      */
-    fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = GlobalScope.launch(Dispatchers.IO) {
+    fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = CoroutineScope(Dispatchers.IO).launch {
         withContext(Dispatchers.Main) {
             val dialog = getCodeConfirmDialog(from, ServerEndpoints.AUTH)
             dialog.show()
@@ -71,6 +71,8 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      */
     fun onRegisterClicked(from: AppCompatActivity) {
+        userRepo.setUserData(UserDataClass(1, "KimYuriy", "BasedPhoto"))
+        Log.i("USER", userRepo.getUserData().value.toString())
         from.apply {
             startActivity(Intent(from, RegisterWindow::class.java))
             finish()
