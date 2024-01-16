@@ -1,13 +1,16 @@
-package com.rcompany.rchat.windows.chats.viewmodels
+package com.rcompany.rchat.windows.chats.viewmodel
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
 import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.databases.user.UserRepo
+import com.rcompany.rchat.windows.search.SearchUsersWindow
 
 /**
  * Класс-контроллер состоянием ChatsWindow типа [ViewModel]
@@ -30,6 +33,10 @@ class ChatsViewModel(private val chatsRepo: ChatsRepo, private val userRepo: Use
             }
         }
         menu.show()
+    }
+    
+    fun openSearchWindow(from: AppCompatActivity) {
+        from.startActivity(Intent(from, SearchUsersWindow::class.java))
     }
 
     fun getUserData() = userRepo.getUserData()

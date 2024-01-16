@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.splash.viewmodels
+package com.rcompany.rchat.windows.splash.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

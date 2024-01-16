@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.messages.viewmodels
+package com.rcompany.rchat.windows.messages.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.utils.databases.chats.ChatsRepo

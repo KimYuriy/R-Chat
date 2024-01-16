@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.splash.viewmodels
+package com.rcompany.rchat.windows.splash.viewmodel
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

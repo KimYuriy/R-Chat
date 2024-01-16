@@ -8,8 +8,8 @@ import com.rcompany.rchat.utils.databases.chats.ChatsDB
 import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
-import com.rcompany.rchat.windows.chats.viewmodels.ChatsViewModel
-import com.rcompany.rchat.windows.chats.viewmodels.ChatsViewModelFactory
+import com.rcompany.rchat.windows.chats.viewmodel.ChatsViewModel
+import com.rcompany.rchat.windows.chats.viewmodel.ChatsViewModelFactory
 
 /**
  * Класс окна чатов типа [AppCompatActivity]
@@ -30,7 +30,7 @@ class ChatsWindow : AppCompatActivity() {
         vm = ViewModelProvider(this, factory)[ChatsViewModel::class.java]
 
         b.ibNewChat.setOnClickListener {
-            vm.showChatsMenu(this@ChatsWindow, it)
+            vm.openSearchWindow(this@ChatsWindow)
         }
 
         /**

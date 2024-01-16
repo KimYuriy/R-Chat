@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RChat"
         tools:targetApi="31">
         <activity
+            android:name=".windows.search.SearchUsersWindow"
+            android:exported="false" />
+        <activity
             android:name=".windows.messages.MessagesWindow"
             android:exported="false" />
         <activity

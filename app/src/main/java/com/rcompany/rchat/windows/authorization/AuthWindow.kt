@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.rcompany.rchat.databinding.AuthWindowBinding
 import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
-import com.rcompany.rchat.windows.authorization.viewmodels.AuthViewModel
-import com.rcompany.rchat.windows.authorization.viewmodels.AuthViewModelFactory
+import com.rcompany.rchat.windows.authorization.viewmodel.AuthViewModel
+import com.rcompany.rchat.windows.authorization.viewmodel.AuthViewModelFactory
 import com.rcompany.rchat.utils.databases.authorization.AuthDataClass
 
 /**

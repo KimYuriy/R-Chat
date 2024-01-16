@@ -26,4 +26,5 @@
     <string name="send_text">Отправить</string>
     <string name="new_chat_menu_text">Новый чат...</string>
     <string name="new_group_chat_menu_text">Новая беседа...</string>
+    <string name="search_user_hint">Логин или почта пользователя</string>
 </resources>

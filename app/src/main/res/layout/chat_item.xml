@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="Login"
                 android:textColor="?attr/textColor"
-                android:textSize="19sp"
+                android:textSize="@dimen/mTextSize"
                 android:textStyle="bold" />
 
             <ImageView
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/you_text"
                 android:textColor="?attr/youTextColor"
-                android:textSize="18sp"
+                android:textSize="@dimen/mTextSize"
                 android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@id/tvMessage" />
 
@@ -78,7 +78,7 @@
                 android:layout_marginStart="3dp"
                 android:text="Some message show here"
                 android:textColor="?attr/textColor"
-                android:textSize="18sp" />
+                android:textSize="@dimen/mTextSize" />
         </LinearLayout>
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="19.12.2023"
             android:textColor="?attr/textColor"
-            android:textSize="15sp"
+            android:textSize="@dimen/xsTextSize"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

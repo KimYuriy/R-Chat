@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.registration.viewmodels
+package com.rcompany.rchat.windows.registration.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

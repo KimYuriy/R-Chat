@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.rcompany.rchat.databinding.SplashWindowBinding
 import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
-import com.rcompany.rchat.windows.splash.viewmodels.SplashViewModel
-import com.rcompany.rchat.windows.splash.viewmodels.SplashViewModelFactory
+import com.rcompany.rchat.windows.splash.viewmodel.SplashViewModel
+import com.rcompany.rchat.windows.splash.viewmodel.SplashViewModelFactory
 
 /**
  * Класс окна приветственного экрана типа [AppCompatActivity]

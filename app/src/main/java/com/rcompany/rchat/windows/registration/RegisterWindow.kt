@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.rcompany.rchat.databinding.RegistrationWindowBinding
 import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
-import com.rcompany.rchat.windows.registration.viewmodels.RegisterViewModel
-import com.rcompany.rchat.windows.registration.viewmodels.RegisterViewModelFactory
+import com.rcompany.rchat.windows.registration.viewmodel.RegisterViewModel
+import com.rcompany.rchat.windows.registration.viewmodel.RegisterViewModelFactory
 import com.rcompany.rchat.utils.databases.registration.RegisterDataClass
 
 /**

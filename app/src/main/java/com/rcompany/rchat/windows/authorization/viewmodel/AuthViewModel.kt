@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.authorization.viewmodels
+package com.rcompany.rchat.windows.authorization.viewmodel
 
 import android.content.Context
 import android.content.Intent

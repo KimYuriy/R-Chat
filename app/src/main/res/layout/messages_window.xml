@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:text="User Login"
-            android:textSize="20sp"
+            android:textSize="@dimen/mTextSize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ibBack"
             app:layout_constraintTop_toTopOf="parent" />

@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.authorization.viewmodels
+package com.rcompany.rchat.windows.authorization.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

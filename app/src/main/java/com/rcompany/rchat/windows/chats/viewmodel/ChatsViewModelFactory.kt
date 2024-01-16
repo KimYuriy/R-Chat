@@ -1,4 +1,4 @@
-package com.rcompany.rchat.windows.chats.viewmodels
+package com.rcompany.rchat.windows.chats.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
