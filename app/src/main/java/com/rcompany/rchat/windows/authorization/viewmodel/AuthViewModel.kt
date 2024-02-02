@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +13,7 @@ import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.enums.ServerEndpoints
-import com.rcompany.rchat.utils.databases.authorization.AuthDataClass
-import com.rcompany.rchat.utils.databases.user.UserDataClass
+import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
 import com.rcompany.rchat.windows.registration.RegisterWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,8 +69,6 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      */
     fun onRegisterClicked(from: AppCompatActivity) {
-        userRepo.setUserData(UserDataClass(1, "KimYuriy", "BasedPhoto"))
-        Log.i("USER", userRepo.getUserData().value.toString())
         from.apply {
             startActivity(Intent(from, RegisterWindow::class.java))
             finish()

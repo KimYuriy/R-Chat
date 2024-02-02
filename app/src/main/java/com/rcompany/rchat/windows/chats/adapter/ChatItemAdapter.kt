@@ -11,8 +11,17 @@ import com.rcompany.rchat.utils.databases.chats.ChatDataClass
 import com.rcompany.rchat.windows.chats.adapter.callbacks.ChatsDiffCallback
 import java.util.Base64
 
-class ChatItemAdapter(private val array: ArrayList<ChatDataClass>, private val userId: Int): RecyclerView.Adapter<ChatItemAdapter.ViewHolder>() {
+class ChatItemAdapter(
+    private val array: ArrayList<ChatDataClass>,
+    private val userId: Int
+) : RecyclerView.Adapter<ChatItemAdapter.ViewHolder>() {
     inner class ViewHolder(private val b: ChatItemBinding): RecyclerView.ViewHolder(b.root) {
+
+        init {
+            itemView.setOnClickListener {
+
+            }
+        }
         fun bind(data: ChatDataClass) {
             b.tvLogin.text = data.login
             b.tvMessage.text = data.message

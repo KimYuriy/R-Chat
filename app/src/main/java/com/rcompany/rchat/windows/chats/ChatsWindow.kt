@@ -24,20 +24,13 @@ class ChatsWindow : AppCompatActivity() {
         setContentView(b.root)
 
         val factory = ChatsViewModelFactory(
-            ChatsRepo.getInstance(ChatsDB.getInstance()),
+            ChatsRepo.getInstance(ChatsDB.getInstance(applicationContext)),
             UserRepo.getInstance(UserDB.getInstance(applicationContext))
         )
         vm = ViewModelProvider(this, factory)[ChatsViewModel::class.java]
 
         b.ibNewChat.setOnClickListener {
             vm.openSearchWindow(this@ChatsWindow)
-        }
-
-        /**
-         * Установка фото пользователя
-         */
-        vm.getUserData().observe(this) {
-
         }
     }
 }

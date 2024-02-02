@@ -1,5 +1,7 @@
 package com.rcompany.rchat.utils.enums
 
+import com.rcompany.rchat.utils.network.address.ServerAddress
+
 /**
  * Класс-энумератор эндпоинтов сервера, по которым будут отправляться различные запросы
  */
@@ -15,13 +17,15 @@ enum class ServerEndpoints {
      * Эндпоинт регистрации
      */
     REGISTER {
-        override val endpoint = "register"
+        override val endpoint = "/user/create"
     };
 
     abstract val endpoint: String
 
+    private val serverAddress = ServerAddress.testValue
     /**
      * Переопределенный метод toString, возвращающий полный адрес сервера с установленным эндпоинтом
      */
-    override fun toString() = "https://192.168.91.3/$endpoint"
+
+    override fun toString() = "$serverAddress$endpoint"
 }

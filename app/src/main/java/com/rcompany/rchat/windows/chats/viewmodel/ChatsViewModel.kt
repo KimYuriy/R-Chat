@@ -26,7 +26,7 @@ class ChatsViewModel(private val chatsRepo: ChatsRepo, private val userRepo: Use
                     true
                 }
                 R.id.newGroupChat -> {
-                    Toast.makeText(context, "Work in progress", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.wip_text), Toast.LENGTH_SHORT).show()
                     true
                 }
                 else -> false

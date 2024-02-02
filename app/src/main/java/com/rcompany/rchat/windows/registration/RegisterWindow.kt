@@ -10,7 +10,7 @@ import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.registration.viewmodel.RegisterViewModel
 import com.rcompany.rchat.windows.registration.viewmodel.RegisterViewModelFactory
-import com.rcompany.rchat.utils.databases.registration.RegisterDataClass
+import com.rcompany.rchat.utils.databases.window_dataclasses.RegisterDataClass
 
 /**
  * Класс окна регистрации типа [AppCompatActivity]
@@ -43,27 +43,13 @@ class RegisterWindow : AppCompatActivity() {
         })
 
         /**
-         * Отслеживание изменений в поле ввода логина
+         * Отслеживание изменений в поле ввода публичного ID
          */
-        b.etLogin.addTextChangedListener(object : TextWatcher {
+        b.etPublicID.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //TODO: Добавить отслеживание изменений в поле ввода логина
-                setRegisterBtnEnabled()
-            }
-            override fun afterTextChanged(s: Editable?) {
-            }
-        })
-
-        /**
-         * Отслеживание изменений в поле ввода уникального ID
-         */
-        b.etUniqueID.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //TODO: Добавить отслеживание изменений в поле ввода уникального ID
+                b.tilPublicID.helperText = vm.getPublicIdHelperText(this@RegisterWindow, s.toString())
                 setRegisterBtnEnabled()
             }
             override fun afterTextChanged(s: Editable?) {
@@ -113,8 +99,7 @@ class RegisterWindow : AppCompatActivity() {
                 this,
                 RegisterDataClass(
                     b.etEmail.text.toString(),
-                    b.etLogin.text.toString(),
-                    b.etUniqueID.text.toString(),
+                    b.etPublicID.text.toString(),
                     b.etPassword.text.toString()
                 )
             )
@@ -129,8 +114,7 @@ class RegisterWindow : AppCompatActivity() {
      */
     private fun setRegisterBtnEnabled() {
         b.btnRegister.isEnabled =
-            b.tilEmail.helperText == null && b.tilLogin.helperText == null &&
-                    b.tilUniqueID.helperText == null && b.tilPassword.helperText == null &&
-                    b.tilRepeatPassword.helperText == null
+            b.tilEmail.helperText == null && b.tilPublicID.helperText == null &&
+                    b.tilPassword.helperText == null && b.tilRepeatPassword.helperText == null
     }
 }

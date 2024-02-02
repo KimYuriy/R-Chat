@@ -18,6 +18,9 @@ class MessagesWindow : AppCompatActivity() {
         b = MessagesWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
-        vm = ViewModelProvider(this, MessagesViewModelFactory(ChatsRepo.getInstance(ChatsDB.getInstance())))[MessagesViewModel::class.java]
+        val factory = MessagesViewModelFactory(
+            ChatsRepo.getInstance(ChatsDB.getInstance(applicationContext))
+        )
+        vm = ViewModelProvider(this, factory)[MessagesViewModel::class.java]
     }
 }

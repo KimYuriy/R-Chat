@@ -41,6 +41,6 @@ class SplashViewModel(private val userRepo: UserRepo) : ViewModel() {
      */
     fun getGreetingText(from: AppCompatActivity) =
         if (userRepo.isUserAuthorized())
-            "${from.getString(R.string.hello_text)}, ${userRepo.getUserData().value?.login}"
+            "${from.getString(R.string.hello_text)}, ${userRepo.getUserData()?.publicId}"
         else from.getString(R.string.greeting_default_text)
 }

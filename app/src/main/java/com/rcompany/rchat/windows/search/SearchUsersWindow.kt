@@ -7,6 +7,9 @@ import com.rcompany.rchat.databinding.SearchUsersWindowBinding
 import com.rcompany.rchat.windows.search.viewmodel.SearchViewModel
 import com.rcompany.rchat.windows.search.viewmodel.SearchViewModelFactory
 
+/**
+ * Класс окна поиска пользователей
+ */
 class SearchUsersWindow : AppCompatActivity() {
     private lateinit var b: SearchUsersWindowBinding
     private lateinit var vm: SearchViewModel

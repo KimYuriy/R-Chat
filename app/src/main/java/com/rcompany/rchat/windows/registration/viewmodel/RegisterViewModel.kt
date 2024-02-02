@@ -14,11 +14,14 @@ import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.windows.authorization.AuthWindow
-import com.rcompany.rchat.utils.databases.registration.RegisterDataClass
+import com.rcompany.rchat.utils.databases.window_dataclasses.RegisterDataClass
 import com.rcompany.rchat.utils.enums.ServerEndpoints
+import com.rcompany.rchat.utils.jwt.JwtUtils
+import com.rcompany.rchat.utils.network.Requests
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Класс-контроллер состоянием RegisterWindow типа [ViewModel]
@@ -31,8 +34,6 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором вызвана функция
      */
     fun onAuthClicked(from: AppCompatActivity) {
-        userRepo.setUserData(UserDataClass(2, "ValikSilchenko", "NotBasedPhoto"))
-        Log.i("USER", userRepo.getUserData().value.toString())
         from.apply {
             startActivity(Intent(from, AuthWindow::class.java))
             finish()
@@ -45,7 +46,11 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные, введенные пользователем при регистрации типа [RegisterDataClass]
      */
     fun onRegisterBtnClicked(from: AppCompatActivity, data: RegisterDataClass) = CoroutineScope(Dispatchers.IO).launch {
-
+        val response = Requests.post(data.toMap(), ServerEndpoints.REGISTER.toString())
+        val userData = JwtUtils.parseJwtToken(response.toString())
+        withContext(Dispatchers.Main) {
+            userRepo.saveUserData(UserDataClass(userData!!["public_id"] as String, response["token"] as String))
+        }
     }
 
     /**
@@ -71,6 +76,11 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun getPasswordHelperText(context: Context, source: String): String? {
         if (source.length < 4) return context.getString(R.string.short_password_text)
+        return null
+    }
+
+    fun getPublicIdHelperText(context: Context, source: String): String? {
+        if (source.isEmpty()) return context.getString(R.string.required_text)
         return null
     }
 

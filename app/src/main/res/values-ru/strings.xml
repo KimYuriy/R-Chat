@@ -9,7 +9,7 @@
     <string name="incorrect_email_text">Неверный e-mail</string>
     <string name="short_password_text">Короткий пароль</string>
     <string name="login_text">Логин</string>
-    <string name="unique_id_text">Уникальный ID</string>
+    <string name="public_id_text">Публичный ID</string>
     <string name="repeat_password_text">Повторите пароль</string>
     <string name="already_have_account_text">Уже есть аккаунт?</string>
     <string name="hello_text">Здравствуйте</string>
@@ -27,4 +27,5 @@
     <string name="new_chat_menu_text">Новый чат...</string>
     <string name="new_group_chat_menu_text">Новая беседа...</string>
     <string name="search_user_hint">Логин или почта пользователя</string>
+    <string name="wip_text">Work in progress</string>
 </resources>

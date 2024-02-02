@@ -32,7 +32,7 @@
             app:boxBackgroundMode="filled"
             app:helperText="@string/required_text"
             app:helperTextTextColor="?attr/helperColor"
-            app:layout_constraintBottom_toTopOf="@id/tilLogin"
+            app:layout_constraintBottom_toTopOf="@id/tilPublicID"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRegistration">
@@ -50,36 +50,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="20dp"
-            app:boxBackgroundMode="filled"
-            app:counterEnabled="true"
-            app:counterMaxLength="60"
-            app:helperText="@string/required_text"
-            app:helperTextTextColor="?attr/helperColor"
-            app:layout_constraintBottom_toTopOf="@id/tilUniqueID"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilEmail">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etLogin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:autofillHints="username"
-                android:background="@android:color/transparent"
-                android:hint="@string/login_text"
-                android:inputType="text"
-                android:maxLength="60"
-                android:maxLines="1"
-                android:textColorHint="?attr/hintColor" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilUniqueID"
+            android:id="@+id/tilPublicID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
@@ -92,14 +63,14 @@
             app:layout_constraintBottom_toTopOf="@id/tilPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilLogin">
+            app:layout_constraintTop_toBottomOf="@id/tilEmail">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etUniqueID"
+                android:id="@+id/etPublicID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/unique_id_text"
+                android:hint="@string/public_id_text"
                 android:inputType="text"
                 android:maxLength="20"
                 android:maxLines="1"
@@ -120,7 +91,7 @@
             app:layout_constraintBottom_toTopOf="@id/tilRepeatPassword"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilUniqueID"
+            app:layout_constraintTop_toBottomOf="@id/tilPublicID"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText

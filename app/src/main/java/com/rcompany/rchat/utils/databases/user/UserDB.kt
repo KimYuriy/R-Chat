@@ -2,6 +2,7 @@ package com.rcompany.rchat.utils.databases.user
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -54,11 +55,11 @@ class UserDB private constructor(private val applicationContext: Context) {
      * Преобразует данные из [_userLiveData] в JSON-объект и сохраняет объект в виде строки в
      * EncryptedSharedPreferences
      */
-    fun saveUserData() {
+    fun saveUserData(userData: UserDataClass?) {
+        _userLiveData.value = userData
         val obj = JSONObject().apply {
-            put("id", _userLiveData.value?.id)
-            put("login", _userLiveData.value?.login)
-            put("avatar", _userLiveData.value?.avatar ?: JSONObject.NULL)
+            put("publicId", userData?.publicId)
+            put("token", userData?.token)
         }
         getEncryptedSharedPrefs().edit().putString(USER_DATA_KEY, obj.toString()).apply()
     }
@@ -72,7 +73,7 @@ class UserDB private constructor(private val applicationContext: Context) {
         val data = getEncryptedSharedPrefs().getString(USER_DATA_KEY, null)
         _userLiveData.value = if (data != null) {
             val obj = JSONObject(data)
-            UserDataClass(obj["id"] as Int, obj["login"] as String, obj["avatar"] as String?)
+            UserDataClass(obj["publicId"] as String, obj["token"] as String)
         } else null
     }
 
@@ -80,7 +81,7 @@ class UserDB private constructor(private val applicationContext: Context) {
      * Функция получения данных пользователя.
      * @return поле данных пользователя [_userLiveData] типа [UserDataClass]
      */
-    fun getUserData() = _userLiveData as LiveData<UserDataClass?>
+    fun getUserData() = _userLiveData.value
 
     /**
      * Функция получения зашифрованной SharedPreferences
