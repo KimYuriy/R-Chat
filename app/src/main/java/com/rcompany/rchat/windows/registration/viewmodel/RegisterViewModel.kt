@@ -13,15 +13,19 @@ import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
+import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
 import com.rcompany.rchat.windows.authorization.AuthWindow
 import com.rcompany.rchat.utils.databases.window_dataclasses.RegisterDataClass
 import com.rcompany.rchat.utils.enums.ServerEndpoints
 import com.rcompany.rchat.utils.jwt.JwtUtils
 import com.rcompany.rchat.utils.network.Requests
+import com.rcompany.rchat.utils.network.ResponseState
+import com.rcompany.rchat.windows.chats.ChatsWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 
 /**
  * Класс-контроллер состоянием RegisterWindow типа [ViewModel]
@@ -46,10 +50,46 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные, введенные пользователем при регистрации типа [RegisterDataClass]
      */
     fun onRegisterBtnClicked(from: AppCompatActivity, data: RegisterDataClass) = CoroutineScope(Dispatchers.IO).launch {
-        val response = Requests.post(data.toMap(), ServerEndpoints.REGISTER.toString())
-        val userData = JwtUtils.parseJwtToken(response.toString())
-        withContext(Dispatchers.Main) {
-            userRepo.saveUserData(UserDataClass(userData!!["public_id"] as String, response["token"] as String))
+        when (val state = Requests.post(data.toMap(), ServerEndpoints.REGISTER.toString())) {
+            is ResponseState.Success -> {
+                val responseData = state.data
+                val stringedResponseData = responseData.toString()
+                if (stringedResponseData.length == 2) {
+                    val authData = AuthDataClass(
+                        data.email,
+                        data.password
+                    ).toMap()
+                    when (val authState = Requests.post(authData, ServerEndpoints.AUTH.toString())) {
+                        is ResponseState.Success -> {
+                            val accessToken = JwtUtils.parseJwtToken(authState.data["access_token"].toString())
+                            val refreshToken = JwtUtils.parseJwtToken(authState.data["refresh_token"].toString())
+                            Log.d("User", "Access Token: $accessToken")
+                            Log.d("User", "Refresh Token: $refreshToken")
+                            withContext(Dispatchers.Main) {
+                                userRepo.saveUserData(UserDataClass(
+                                    accessToken!!["public_id"].toString(),
+                                    accessToken.toString(),
+                                    refreshToken.toString()
+                                ))
+                                from.startActivity(Intent(from, ChatsWindow::class.java))
+                                from.finish()
+                            }
+                        }
+                        is ResponseState.Failure -> {
+                            withContext(Dispatchers.Main) {
+                                val dialog = getFailureDialog(from, authState)
+                                dialog.show()
+                            }
+                        }
+                    }
+                }
+            }
+            is ResponseState.Failure -> {
+                withContext(Dispatchers.Main) {
+                    val dialog = getFailureDialog(from, state)
+                    dialog.show()
+                }
+            }
         }
     }
 
@@ -75,7 +115,7 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @return строка с текстом ошибки типа [String] или null
      */
     fun getPasswordHelperText(context: Context, source: String): String? {
-        if (source.length < 4) return context.getString(R.string.short_password_text)
+        if (source.length < 7) return context.getString(R.string.short_password_text)
         return null
     }
 
@@ -112,4 +152,11 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
         })
         return dialog
     }
+
+    private fun getFailureDialog(from: AppCompatActivity, state: ResponseState.Failure) = AlertDialog.Builder(from).apply {
+            setCancelable(true)
+            setTitle("${from.getString(R.string.error_text)} ${state.code}")
+            setMessage(state.errorText)
+            setPositiveButton(from.getString(R.string.ok_text), null)
+        }.create()
 }

@@ -10,7 +10,11 @@ enum class ServerEndpoints {
      * Эндпоинт авторизации
      */
     AUTH {
-        override val endpoint = "authorization"
+        override val endpoint = "/api/auth"
+    },
+
+    SEARCH_USER {
+        override val endpoint = "/user/find"
     },
 
     /**
@@ -20,9 +24,10 @@ enum class ServerEndpoints {
         override val endpoint = "/user/create"
     };
 
+
     abstract val endpoint: String
 
-    private val serverAddress = ServerAddress.testValue
+    private val serverAddress = ServerAddress.value
     /**
      * Переопределенный метод toString, возвращающий полный адрес сервера с установленным эндпоинтом
      */

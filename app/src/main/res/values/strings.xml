@@ -25,8 +25,15 @@
     <string name="you_text">You: </string>
     <string name="enter_message_text">Enter message</string>
     <string name="send_text">Send</string>
-    <string name="new_chat_menu_text">Новый чат...</string>
-    <string name="new_group_chat_menu_text">Новая беседа...</string>
-    <string name="search_user_hint">Логин или почта пользователя</string>
+    <string name="new_chat_menu_text">New chat...</string>
+    <string name="new_group_chat_menu_text">New group chat...</string>
+    <string name="search_user_hint">User\'s login or e-mail</string>
     <string name="wip_text">Work in progress</string>
+    <string name="ok_text">Ok</string>
+    <string name="error_text">Error</string>
+    <string name="additional_data_text">Additional data</string>
+    <string name="phone_number_text">Phone number</string>
+    <string name="continue_text">Continue</string>
+    <string name="skip_you_can_set_it_later_in_app_settings_text">Skip (you can set it later in app settings)</string>
+    <string name="select_image_to_set_it_as_profile_photo_text">Select image to set it as profile photo</string>
 </resources>

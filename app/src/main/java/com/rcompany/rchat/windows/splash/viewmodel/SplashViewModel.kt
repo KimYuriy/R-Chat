@@ -15,6 +15,9 @@ import kotlin.concurrent.schedule
  * @property userRepo репозиторий БД пользователя типа [UserRepo]
  */
 class SplashViewModel(private val userRepo: UserRepo) : ViewModel() {
+    init {
+        userRepo.loadUserData()
+    }
     /**
      * Функция открытия окна с задержкой.
      * Принимаемые параметры - текущее окно и время задержки.

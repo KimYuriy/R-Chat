@@ -4,16 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.fingerprintjs.android.fingerprint.Fingerprinter
+import com.fingerprintjs.android.fingerprint.FingerprinterFactory
 import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
+import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.enums.ServerEndpoints
 import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
+import com.rcompany.rchat.utils.jwt.JwtUtils
+import com.rcompany.rchat.utils.network.Requests
+import com.rcompany.rchat.utils.network.ResponseState
+import com.rcompany.rchat.windows.chats.ChatsWindow
 import com.rcompany.rchat.windows.registration.RegisterWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +56,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @return строка с текстом ошибки или null
      */
     fun getPasswordHelperText(context: Context, source: String): String? {
-        if (source.length < 4) return context.getString(R.string.short_password_text)
+        if (source.length < 7) return context.getString(R.string.short_password_text)
         return null
     }
 
@@ -58,9 +66,31 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные авторизации типа [AuthDataClass]
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = CoroutineScope(Dispatchers.IO).launch {
-        withContext(Dispatchers.Main) {
-            val dialog = getCodeConfirmDialog(from, ServerEndpoints.AUTH)
-            dialog.show()
+        var digitFingerprint = ""
+        FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
+            digitFingerprint = it
+        }
+        when (val state = Requests.post(data.toMap(), ServerEndpoints.AUTH.toString())) {
+            is ResponseState.Success -> {
+                val accessToken = JwtUtils.parseJwtToken(state.data["access_token"].toString())
+                val refreshToken = JwtUtils.parseJwtToken(state.data["refresh_token"].toString())
+                Log.d("User", "Access Token: $accessToken")
+                Log.d("User", "Refresh Token: $refreshToken")
+                withContext(Dispatchers.Main) {
+                    userRepo.saveUserData(
+                        UserDataClass(
+                            accessToken!!["public_id"].toString(),
+                            accessToken.toString(),
+                            refreshToken.toString()
+                        )
+                    )
+                    from.startActivity(Intent(from, ChatsWindow::class.java))
+                    from.finish()
+                }
+            }
+            is ResponseState.Failure -> {
+                Log.e("User", "AuthVM ${state.code}: ${state.errorText}")
+            }
         }
     }
 

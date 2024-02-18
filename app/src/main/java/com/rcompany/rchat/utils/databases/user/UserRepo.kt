@@ -43,6 +43,8 @@ class UserRepo private constructor(private val userDB: UserDB) {
 
     fun saveUserData(userData: UserDataClass?) = userDB.saveUserData(userData)
 
+    fun loadUserData() = userDB.loadUserData()
+
     /**
      * Функция проверки авторизации пользователя.
      * Вызывается метод [getUserData] и проверяется полученное значение - если оно не равно null,

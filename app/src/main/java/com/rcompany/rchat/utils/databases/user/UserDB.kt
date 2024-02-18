@@ -3,7 +3,6 @@ package com.rcompany.rchat.utils.databases.user
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
@@ -56,10 +55,11 @@ class UserDB private constructor(private val applicationContext: Context) {
      * EncryptedSharedPreferences
      */
     fun saveUserData(userData: UserDataClass?) {
-        _userLiveData.value = userData
+        setUserData(userData)
         val obj = JSONObject().apply {
-            put("publicId", userData?.publicId)
-            put("token", userData?.token)
+            put("public_id", userData?.publicId)
+            put("access_token", userData?.accessToken)
+            put("refresh_token", userData?.refreshToken)
         }
         getEncryptedSharedPrefs().edit().putString(USER_DATA_KEY, obj.toString()).apply()
     }
@@ -73,7 +73,11 @@ class UserDB private constructor(private val applicationContext: Context) {
         val data = getEncryptedSharedPrefs().getString(USER_DATA_KEY, null)
         _userLiveData.value = if (data != null) {
             val obj = JSONObject(data)
-            UserDataClass(obj["publicId"] as String, obj["token"] as String)
+            UserDataClass(
+                obj["public_id"] as String,
+                obj["access_token"] as String,
+                obj["refresh_token"] as String
+            )
         } else null
     }
 
@@ -91,7 +95,6 @@ class UserDB private constructor(private val applicationContext: Context) {
         val masterKey = MasterKey.Builder(applicationContext).apply {
             setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
         }.build()
-
         return EncryptedSharedPreferences.create(
             applicationContext,
             USER_PREFS_KEY,

@@ -20,5 +20,9 @@ class SearchUsersWindow : AppCompatActivity() {
 
         val factory = SearchViewModelFactory()
         vm = ViewModelProvider(this, factory)[SearchViewModel::class.java]
+
+        b.ibSearchPerson.setOnClickListener {
+            vm.searchUser(b.etLogin.text.toString())
+        }
     }
 }

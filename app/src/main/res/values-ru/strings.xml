@@ -27,5 +27,12 @@
     <string name="new_chat_menu_text">Новый чат...</string>
     <string name="new_group_chat_menu_text">Новая беседа...</string>
     <string name="search_user_hint">Логин или почта пользователя</string>
-    <string name="wip_text">Work in progress</string>
+    <string name="wip_text">В разработке</string>
+    <string name="ok_text">Ок</string>
+    <string name="error_text">Ошибка</string>
+    <string name="additional_data_text">Дополнительные данные</string>
+    <string name="phone_number_text">Номер телефона</string>
+    <string name="continue_text">Продолжить</string>
+    <string name="skip_you_can_set_it_later_in_app_settings_text">Пропустить (Вы всегда можете заполнить эти данные в настройках приложения)</string>
+    <string name="select_image_to_set_it_as_profile_photo_text">Выберите изображение, чтобы установить его изображением профиля</string>
 </resources>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".windows.settings.additional_user_info.AdditionalUserInfoWindow">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/additional_data_text"
+            android:textSize="@dimen/lTextSize"
+            app:layout_constraintBottom_toTopOf="@id/cvAvatar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvAvatar"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@android:color/transparent"
+            app:cardCornerRadius="500dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toTopOf="@id/tvAvatarDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle">
+
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_person"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvAvatarDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:paddingHorizontal="15dp"
+            android:text="@string/select_image_to_set_it_as_profile_photo_text"
+            android:textAlignment="center"
+            android:textSize="@dimen/mTextSize"
+            app:layout_constraintBottom_toTopOf="@id/tilLogin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cvAvatar" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="15dp"
+            app:boxBackgroundMode="filled"
+            app:layout_constraintBottom_toTopOf="@id/tilPhone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAvatarDesc">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLogin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/login_text"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="15dp"
+            app:boxBackgroundMode="filled"
+            app:layout_constraintBottom_toTopOf="@id/btnSaveData"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilLogin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/phone_number_text"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:textColorHint="?attr/hintColor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSaveData"
+            android:layout_width="250dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="15dp"
+            android:background="@drawable/btn_background"
+            android:text="@string/continue_text"
+            android:textSize="@dimen/sTextSize"
+            app:layout_constraintBottom_toTopOf="@id/tvSkip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tilPhone" />
+
+        <TextView
+            android:id="@+id/tvSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="30dp"
+            android:paddingHorizontal="30dp"
+            android:text="@string/skip_you_can_set_it_later_in_app_settings_text"
+            android:textAlignment="center"
+            android:textColor="?attr/clickableTextColor"
+            android:textSize="@dimen/sTextSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSaveData" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

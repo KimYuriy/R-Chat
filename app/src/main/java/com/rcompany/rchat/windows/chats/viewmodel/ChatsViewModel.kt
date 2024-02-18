@@ -40,4 +40,8 @@ class ChatsViewModel(private val chatsRepo: ChatsRepo, private val userRepo: Use
     }
 
     fun getUserData() = userRepo.getUserData()
+
+    fun loadChats() {
+
+    }
 }

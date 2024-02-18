@@ -23,12 +23,12 @@ class ChatItemAdapter(
             }
         }
         fun bind(data: ChatDataClass) {
-            b.tvLogin.text = data.login
-            b.tvMessage.text = data.message
+            b.tvLogin.text = data.chatName
+            b.tvMessage.text = data.lastMessage
             b.tvDatetime.text = data.time
 
-            if (data.avatar != null) {
-                val bytes = Base64.getDecoder().decode(data.avatar)
+            if (data.chatAvatar != null) {
+                val bytes = Base64.getDecoder().decode(data.chatAvatar)
                 b.ivAvatar.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
             }
 

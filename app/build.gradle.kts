@@ -51,4 +51,9 @@ dependencies {
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
     implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("com.vanniktech:android-image-cropper:4.5.0")
+    implementation("com.github.fingerprintjs:fingerprint-android:2.1.0")
+
+    implementation ("io.socket:socket.io-client:2.1.0") {
+        exclude("org.json", "json")
+    }
 }
