@@ -21,6 +21,7 @@ import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
 import com.rcompany.rchat.utils.jwt.JwtUtils
 import com.rcompany.rchat.utils.network.Requests
 import com.rcompany.rchat.utils.network.ResponseState
+import com.rcompany.rchat.utils.network.address.dataclass.UserMetadata
 import com.rcompany.rchat.windows.chats.ChatsWindow
 import com.rcompany.rchat.windows.registration.RegisterWindow
 import kotlinx.coroutines.CoroutineScope
@@ -66,11 +67,15 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные авторизации типа [AuthDataClass]
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = CoroutineScope(Dispatchers.IO).launch {
-        var digitFingerprint = ""
+        var deviceFingerprint = ""
         FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
-            digitFingerprint = it
+            deviceFingerprint = it
         }
-        when (val state = Requests.post(data.toMap(), ServerEndpoints.AUTH.toString())) {
+        when (val state = Requests.post(
+            data.toMap(),
+            UserMetadata(deviceFingerprint, null),
+            ServerEndpoints.AUTH.toString()
+        )) {
             is ResponseState.Success -> {
                 val accessToken = JwtUtils.parseJwtToken(state.data["access_token"].toString())
                 val refreshToken = JwtUtils.parseJwtToken(state.data["refresh_token"].toString())

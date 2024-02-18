@@ -9,6 +9,8 @@ import android.util.Patterns
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.fingerprintjs.android.fingerprint.Fingerprinter
+import com.fingerprintjs.android.fingerprint.FingerprinterFactory
 import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserDataClass
@@ -20,6 +22,7 @@ import com.rcompany.rchat.utils.enums.ServerEndpoints
 import com.rcompany.rchat.utils.jwt.JwtUtils
 import com.rcompany.rchat.utils.network.Requests
 import com.rcompany.rchat.utils.network.ResponseState
+import com.rcompany.rchat.utils.network.address.dataclass.UserMetadata
 import com.rcompany.rchat.windows.chats.ChatsWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +53,15 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные, введенные пользователем при регистрации типа [RegisterDataClass]
      */
     fun onRegisterBtnClicked(from: AppCompatActivity, data: RegisterDataClass) = CoroutineScope(Dispatchers.IO).launch {
-        when (val state = Requests.post(data.toMap(), ServerEndpoints.REGISTER.toString())) {
+        var deviceFingerprint = ""
+        FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
+            deviceFingerprint = it
+        }
+        when (val state = Requests.post(
+            data.toMap(),
+            UserMetadata(deviceFingerprint, null),
+            ServerEndpoints.REGISTER.toString()
+        )) {
             is ResponseState.Success -> {
                 val responseData = state.data
                 val stringedResponseData = responseData.toString()
@@ -59,7 +70,11 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
                         data.email,
                         data.password
                     ).toMap()
-                    when (val authState = Requests.post(authData, ServerEndpoints.AUTH.toString())) {
+                    when (val authState = Requests.post(
+                        authData,
+                        UserMetadata(deviceFingerprint, null),
+                        ServerEndpoints.AUTH.toString()
+                    )) {
                         is ResponseState.Success -> {
                             val accessToken = JwtUtils.parseJwtToken(authState.data["access_token"].toString())
                             val refreshToken = JwtUtils.parseJwtToken(authState.data["refresh_token"].toString())
