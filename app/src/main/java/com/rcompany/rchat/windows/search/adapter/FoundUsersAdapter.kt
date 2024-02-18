@@ -33,10 +33,10 @@ class FoundUsersAdapter(
         }
 
         fun bind(data: FoundUsersDataClass) {
-            b.tvLogin.text = data.login
+            b.tvLogin.text = data.publicId
 
-            if (data.avatarString != null) {
-                val bytes = Base64.getDecoder().decode(data.avatarString)
+            if (data.avatarUrl != null) {
+                val bytes = Base64.getDecoder().decode(data.avatarUrl)
                 b.ivAvatar.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
             }
         }
