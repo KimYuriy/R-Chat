@@ -13,14 +13,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/ivAvatar"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvAvatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/img_person"
+            android:backgroundTint="?attr/imgBackgroundColor"
+            app:cardCornerRadius="500dp"
+            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/llLeftContainer"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_person" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/llLeftContainer"
@@ -29,7 +38,7 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ivAvatar"
+            app:layout_constraintStart_toEndOf="@id/cvAvatar"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView

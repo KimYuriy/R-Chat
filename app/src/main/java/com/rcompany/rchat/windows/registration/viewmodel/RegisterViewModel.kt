@@ -23,12 +23,11 @@ import com.rcompany.rchat.utils.jwt.JwtUtils
 import com.rcompany.rchat.utils.network.Requests
 import com.rcompany.rchat.utils.network.ResponseState
 import com.rcompany.rchat.utils.network.address.dataclass.UserMetadata
-import com.rcompany.rchat.windows.chats.ChatsWindow
+import com.rcompany.rchat.windows.settings.additional_user_info.AdditionalUserInfoWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
 /**
  * Класс-контроллер состоянием RegisterWindow типа [ViewModel]
@@ -53,11 +52,12 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param data данные, введенные пользователем при регистрации типа [RegisterDataClass]
      */
     fun onRegisterBtnClicked(from: AppCompatActivity, data: RegisterDataClass) = CoroutineScope(Dispatchers.IO).launch {
+        val requests = Requests(from.applicationContext)
         var deviceFingerprint = ""
         FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
             deviceFingerprint = it
         }
-        when (val state = Requests.post(
+        when (val state = requests.post(
             data.toMap(),
             UserMetadata(deviceFingerprint, null),
             ServerEndpoints.REGISTER.toString()
@@ -70,7 +70,7 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
                         data.email,
                         data.password
                     ).toMap()
-                    when (val authState = Requests.post(
+                    when (val authState = requests.post(
                         authData,
                         UserMetadata(deviceFingerprint, null),
                         ServerEndpoints.AUTH.toString()
@@ -86,7 +86,7 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
                                     accessToken.toString(),
                                     refreshToken.toString()
                                 ))
-                                from.startActivity(Intent(from, ChatsWindow::class.java))
+                                from.startActivity(Intent(from, AdditionalUserInfoWindow::class.java))
                                 from.finish()
                             }
                         }

@@ -22,5 +22,11 @@ class MessagesWindow : AppCompatActivity() {
             ChatsRepo.getInstance(ChatsDB.getInstance(applicationContext))
         )
         vm = ViewModelProvider(this, factory)[MessagesViewModel::class.java]
+
+        b.tvLogin.text = intent.getStringExtra("public_id")
+
+        b.ibBack.setOnClickListener {
+            finish()
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.rcompany.rchat.windows.search.adapter
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rcompany.rchat.databinding.FoundUserItemBinding
 import com.rcompany.rchat.utils.databases.window_dataclasses.FoundUsersDataClass
+import com.rcompany.rchat.windows.messages.MessagesWindow
 import com.rcompany.rchat.windows.search.adapter.callbacks.FoundUsersDiffCallback
 import java.util.Base64
 
@@ -17,6 +19,17 @@ class FoundUsersAdapter(
     inner class ViewHolder(private val b: FoundUserItemBinding) : RecyclerView.ViewHolder(b.root) {
 
         init {
+            itemView.setOnClickListener {
+                val intent = Intent(
+                    itemView.context,
+                    MessagesWindow::class.java
+                ).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                    putExtra("public_id", array[adapterPosition].publicId)
+                }
+                itemView.context.startActivity(intent)
+            }
+
             itemView.setOnLongClickListener {
                 b.cbSelected.visibility = View.VISIBLE
                 b.cbSelected.isChecked = true
@@ -24,6 +37,7 @@ class FoundUsersAdapter(
             }
 
             b.cbSelected.setOnCheckedChangeListener { _, checked ->
+                b.cbSelected.isChecked = checked
                 if (checked) {
                     //TODO: Добавить добавление ID пользователя в массив для создания беседы
                 } else {

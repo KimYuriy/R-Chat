@@ -4,9 +4,9 @@ import org.json.JSONObject
 
 class JasonStatham private constructor() {
     companion object {
-        fun string2ListJSONs(sourse: String): List<JSONObject> {
+        fun string2ListJSONs(source: String): List<JSONObject> {
             val jsonList = mutableListOf<JSONObject>()
-            val json = sourse.drop(1).dropLast(1)
+            val json = source.drop(1).dropLast(1)
             var counter = 0
             var startInd = 0
             json.forEachIndexed { index, char ->

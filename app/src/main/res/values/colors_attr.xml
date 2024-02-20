@@ -6,5 +6,6 @@
         <attr name="helperColor" format="color" />
         <attr name="youTextColor" format="color" />
         <attr name="clickableTextColor" format="color" />
+        <attr name="imgBackgroundColor" format="color" />
     </declare-styleable>
 </resources>

@@ -5,15 +5,24 @@
     android:layout_height="wrap_content"
     android:paddingVertical="5dp">
 
-    <ImageView
-        android:id="@+id/ivAvatar"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvAvatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/img_person"
+        android:backgroundTint="?attr/imgBackgroundColor"
+        app:cardCornerRadius="500dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/clTexts"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_person" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clTexts"
@@ -22,7 +31,7 @@
         android:layout_marginStart="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivAvatar"
+        app:layout_constraintStart_toEndOf="@id/cvAvatar"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout

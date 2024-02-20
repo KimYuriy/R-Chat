@@ -32,5 +32,7 @@ class ChatsWindow : AppCompatActivity() {
         b.ibNewChat.setOnClickListener {
             vm.openSearchWindow(this@ChatsWindow)
         }
+
+        b.tvLogin.text = vm.getUserData()?.publicId
     }
 }

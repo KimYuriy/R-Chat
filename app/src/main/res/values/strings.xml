@@ -36,4 +36,9 @@
     <string name="continue_text">Continue</string>
     <string name="skip_you_can_set_it_later_in_app_settings_text">Skip (you can set it later in app settings)</string>
     <string name="select_image_to_set_it_as_profile_photo_text">Select image to set it as profile photo</string>
+    <string name="internal_server_error_text">Internal server error</string>
+    <string name="user_already_exists_text">User already exists with these data</string>
+    <string name="access_forbidden_text">Access forbidden</string>
+    <string name="wrong_auth_data_text">Wrong data for authorization</string>
+    <string name="unexpected_error_text">Unexpected error</string>
 </resources>

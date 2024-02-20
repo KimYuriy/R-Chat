@@ -35,4 +35,9 @@
     <string name="continue_text">Продолжить</string>
     <string name="skip_you_can_set_it_later_in_app_settings_text">Пропустить (Вы всегда можете заполнить эти данные в настройках приложения)</string>
     <string name="select_image_to_set_it_as_profile_photo_text">Выберите изображение, чтобы установить его изображением профиля</string>
+    <string name="internal_server_error_text">Ошибка сервера</string>
+    <string name="user_already_exists_text">Пользователь с такими данными уже существует</string>
+    <string name="access_forbidden_text">Доступ к ресурсу запрещен</string>
+    <string name="wrong_auth_data_text">Введены неверные данные для авторизации</string>
+    <string name="unexpected_error_text">Возникла непредвиденная ошибка</string>
 </resources>

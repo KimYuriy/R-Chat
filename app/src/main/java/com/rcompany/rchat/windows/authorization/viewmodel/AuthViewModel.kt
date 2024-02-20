@@ -71,7 +71,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
         FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
             deviceFingerprint = it
         }
-        when (val state = Requests.post(
+        when (val state = Requests(from.applicationContext).post(
             data.toMap(),
             UserMetadata(deviceFingerprint, null),
             ServerEndpoints.AUTH.toString()
@@ -94,7 +94,10 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
                 }
             }
             is ResponseState.Failure -> {
-                Log.e("User", "AuthVM ${state.code}: ${state.errorText}")
+                withContext(Dispatchers.Main) {
+                    val dialog = getFailureDialog(from, state)
+                    dialog.show()
+                }
             }
         }
     }
@@ -163,4 +166,11 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
         })
         return dialog
     }
+
+    private fun getFailureDialog(from: AppCompatActivity, state: ResponseState.Failure) = AlertDialog.Builder(from).apply {
+        setCancelable(true)
+        setTitle("${from.getString(R.string.error_text)} ${state.code}")
+        setMessage(state.errorText)
+        setPositiveButton(from.getString(R.string.ok_text), null)
+    }.create()
 }

@@ -1,6 +1,8 @@
 package com.rcompany.rchat.utils.network
 
+import android.content.Context
 import android.util.Log
+import com.rcompany.rchat.R
 import org.json.JSONObject
 
 sealed interface ResponseState {
@@ -13,13 +15,13 @@ sealed interface ResponseState {
         }
     }
 
-    class Failure(val code: Int, response: String) : ResponseState {
+    class Failure(val context: Context, val code: Int, response: String) : ResponseState {
         var errorText: String
         init {
             errorText = when (code) {
                 500 -> {
                     Log.e("User", "Server error")
-                    "Внутренняя ошибка сервера"
+                    context.getString(R.string.internal_server_error_text)
                 }
                 -1 -> {
                     Log.e("User", "Exception")
@@ -27,16 +29,16 @@ sealed interface ResponseState {
                 }
                 else -> {
                     Log.e("User", response)
-                    getErrorExplanation(JSONObject(response)["detail"] as String)
+                    getErrorExplanation(context, JSONObject(response)["detail"] as String)
                 }
             }
         }
 
-        private fun getErrorExplanation(key: String) = mapOf(
-            "user_already_exists" to "Пользователь с такими данными уже существует",
-            "Internal Server Error" to "Ошибка сервера",
-            "Forbidden" to "Доступ к ресурсу запрещен",
-            "Unauthorized" to "Введены неверные данные для авторизации"
-        ).getOrDefault(key, "Возникла непредвиденная ошибка")
+        private fun getErrorExplanation(context: Context, key: String) = mapOf(
+            "user_already_exists" to context.getString(R.string.user_already_exists_text),
+            "Internal Server Error" to context.getString(R.string.internal_server_error_text),
+            "Forbidden" to context.getString(R.string.access_forbidden_text),
+            "Unauthorized" to context.getString(R.string.wrong_auth_data_text)
+        ).getOrDefault(key, context.getString(R.string.unexpected_error_text))
     }
 }

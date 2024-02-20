@@ -41,5 +41,9 @@ class SearchUsersWindow : AppCompatActivity() {
                 this@SearchUsersWindow
             )
         }
+
+        b.ibBack.setOnClickListener {
+            finish()
+        }
     }
 }

@@ -10,5 +10,6 @@
         <item name="helperColor">@color/red</item>
         <item name="youTextColor">@color/dark_grey</item>
         <item name="clickableTextColor">@color/light_blue</item>
+        <item name="imgBackgroundColor">@color/light_grey</item>
     </style>
 </resources>

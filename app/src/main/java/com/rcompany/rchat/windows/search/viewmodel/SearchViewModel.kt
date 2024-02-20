@@ -2,7 +2,6 @@ package com.rcompany.rchat.windows.search.viewmodel
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fingerprintjs.android.fingerprint.Fingerprinter
@@ -29,7 +28,7 @@ class SearchViewModel(private val userRepo: UserRepo): ViewModel() {
         FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
             deviceFingerprint = it
         }
-        when (val state = Requests.get(
+        when (val state = Requests(from.applicationContext).get(
             login,
             UserMetadata(deviceFingerprint, userRepo.getUserData()?.accessToken),
             ServerEndpoints.SEARCH_USER.toString()
@@ -49,9 +48,11 @@ class SearchViewModel(private val userRepo: UserRepo): ViewModel() {
         if (_foundUsersList.isNotEmpty()) _foundUsersList.clear()
         val usersList = JasonStatham.string2ListJSONs(source["users"].toString())
         for (user in usersList) {
+            val avatar = if (user["avatar_url"].toString() == "null") null
+                else user["avatar_url"].toString()
             _foundUsersList.add(FoundUsersDataClass(
                 user["public_id"].toString(),
-                user["avatar_url"].toString()
+                avatar
             ))
         }
         foundUsersLiveData.value = _foundUsersList
