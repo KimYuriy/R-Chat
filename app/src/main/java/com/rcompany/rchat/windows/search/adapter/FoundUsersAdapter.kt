@@ -13,11 +13,17 @@ import com.rcompany.rchat.windows.messages.MessagesWindow
 import com.rcompany.rchat.windows.search.adapter.callbacks.FoundUsersDiffCallback
 import java.util.Base64
 
+/**
+ * Адаптер для отображения списка найденных пользователей
+ */
 class FoundUsersAdapter(
     private val array: ArrayList<FoundUsersDataClass>
 ) : RecyclerView.Adapter<FoundUsersAdapter.ViewHolder>() {
     inner class ViewHolder(private val b: FoundUserItemBinding) : RecyclerView.ViewHolder(b.root) {
 
+        /**
+         * Конструктор класса
+         */
         init {
             itemView.setOnClickListener {
                 val intent = Intent(
@@ -46,6 +52,9 @@ class FoundUsersAdapter(
             }
         }
 
+        /**
+         * Установка параметров найденного пользователя
+         */
         fun bind(data: FoundUsersDataClass) {
             b.tvLogin.text = data.publicId
 
@@ -67,6 +76,9 @@ class FoundUsersAdapter(
 
     override fun getItemCount() = array.size
 
+    /**
+     * Функция обновления списка найденных пользователей
+     */
     fun updateFoundUsers(newArray: ArrayList<FoundUsersDataClass>) {
         val dr = DiffUtil.calculateDiff(FoundUsersDiffCallback(array, newArray))
         array.clear()

@@ -22,6 +22,9 @@ class AdditionalUserInfoWindow : AppCompatActivity() {
     private lateinit var vm: AdditionalUserInfoViewModel
     private var avatar: String? = null
 
+    /**
+     * Контракт на получение фото из памяти устройства
+     */
     private val cropImage = registerForActivityResult(CropImageContract()) {
         if (it.isSuccessful) {
             b.ivAvatar.setImageURI(it.uriContent)
@@ -44,14 +47,25 @@ class AdditionalUserInfoWindow : AppCompatActivity() {
         )
         vm = ViewModelProvider(this, factory)[AdditionalUserInfoViewModel::class.java]
 
+        /**
+         * Нажатие на кнопку пропуска текущего шага
+         */
         b.tvSkip.setOnClickListener {
             vm.onSkipClicked(this@AdditionalUserInfoWindow)
         }
 
+        /**
+         * Нажатие на кнопку сохранения данных
+         */
         b.btnSaveData.setOnClickListener {
-            vm.onSaveDataClicked(this@AdditionalUserInfoWindow)
+            vm.onSaveDataClicked(
+                this@AdditionalUserInfoWindow
+            )
         }
 
+        /**
+         * Загрузка изображения из памяти устройства
+         */
         b.ivAvatar.setOnClickListener {
             Log.d("App", "Avatar clicked")
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {

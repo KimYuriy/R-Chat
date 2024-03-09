@@ -9,19 +9,15 @@ import android.util.Patterns
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.fingerprintjs.android.fingerprint.Fingerprinter
-import com.fingerprintjs.android.fingerprint.FingerprinterFactory
 import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
 import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
-import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
-import com.rcompany.rchat.utils.enums.ServerEndpoints
+import com.rcompany.rchat.utils.network.address.ServerEndpoints
 import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
-import com.rcompany.rchat.utils.jwt.JwtUtils
-import com.rcompany.rchat.utils.network.Requests
-import com.rcompany.rchat.utils.network.ResponseState
-import com.rcompany.rchat.utils.network.address.dataclass.UserMetadata
+import com.rcompany.rchat.utils.network.NetworkRepo
+import com.rcompany.rchat.utils.network.requests.ResponseState
+import com.rcompany.rchat.utils.network.token.Tokens
 import com.rcompany.rchat.windows.chats.ChatsWindow
 import com.rcompany.rchat.windows.registration.RegisterWindow
 import kotlinx.coroutines.CoroutineScope
@@ -66,37 +62,27 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором была вызвана функция
      * @param data данные авторизации типа [AuthDataClass]
      */
-    fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) = CoroutineScope(Dispatchers.IO).launch {
-        var deviceFingerprint = ""
-        FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
-            deviceFingerprint = it
-        }
-        when (val state = Requests(from.applicationContext).post(
-            data.toMap(),
-            UserMetadata(deviceFingerprint, null),
-            ServerEndpoints.AUTH.toString()
-        )) {
-            is ResponseState.Success -> {
-                val accessToken = JwtUtils.parseJwtToken(state.data["access_token"].toString())
-                val refreshToken = JwtUtils.parseJwtToken(state.data["refresh_token"].toString())
-                Log.d("User", "Access Token: $accessToken")
-                Log.d("User", "Refresh Token: $refreshToken")
-                withContext(Dispatchers.Main) {
-                    userRepo.saveUserData(
-                        UserDataClass(
-                            accessToken!!["public_id"].toString(),
-                            accessToken.toString(),
-                            refreshToken.toString()
-                        )
-                    )
-                    from.startActivity(Intent(from, ChatsWindow::class.java))
-                    from.finish()
+    fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) {
+        CoroutineScope(Dispatchers.IO).launch {
+            when (val state = NetworkRepo(from.applicationContext, userRepo).post(
+                ServerEndpoints.AUTH.toString(),
+                data.toMap()
+            )) {
+                is ResponseState.Success -> {
+                    Log.d("AuthViewModel:onLoginClicked", "Auth successful")
+                    val userData = Tokens(state.data).parseToken()
+                    withContext(Dispatchers.Main) {
+                        userRepo.saveUserData(userData)
+                        from.startActivity(Intent(from, ChatsWindow::class.java))
+                        from.finish()
+                    }
                 }
-            }
-            is ResponseState.Failure -> {
-                withContext(Dispatchers.Main) {
-                    val dialog = getFailureDialog(from, state)
-                    dialog.show()
+                is ResponseState.Failure -> {
+                    Log.e("AuthViewModel:onLoginClicked", "Auth failed")
+                    withContext(Dispatchers.Main) {
+                        val dialog = getFailureDialog(from, state)
+                        dialog.show()
+                    }
                 }
             }
         }
@@ -167,6 +153,12 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
         return dialog
     }
 
+    /**
+     * Функция показа диалогового окна с кодом и текстом ошибки
+     * @param from окно типа [AppCompatActivity]
+     * @param state состояние диалога типа [ResponseState.Failure]
+     * @return диалоговое окно типа [AlertDialog]
+     */
     private fun getFailureDialog(from: AppCompatActivity, state: ResponseState.Failure) = AlertDialog.Builder(from).apply {
         setCancelable(true)
         setTitle("${from.getString(R.string.error_text)} ${state.code}")

@@ -41,4 +41,5 @@
     <string name="access_forbidden_text">Access forbidden</string>
     <string name="wrong_auth_data_text">Wrong data for authorization</string>
     <string name="unexpected_error_text">Unexpected error</string>
+    <string name="users_not_found_text">Пользователи не найдены!</string>
 </resources>

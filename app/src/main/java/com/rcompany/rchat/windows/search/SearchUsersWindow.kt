@@ -27,14 +27,23 @@ class SearchUsersWindow : AppCompatActivity() {
         )
         vm = ViewModelProvider(this, factory)[SearchViewModel::class.java]
 
+        /**
+         * Установка адаптера списка пользователей
+         */
         val adapter = FoundUsersAdapter(ArrayList())
         b.rvFoundUsers.layoutManager = LinearLayoutManager(this)
         b.rvFoundUsers.adapter = adapter
 
+        /**
+         * Отслеживание изменения списка пользователей
+         */
         vm.foundUsersLiveData.observe(this) {
             adapter.updateFoundUsers(it)
         }
 
+        /**
+         * нажатие кнопки поиска пользователей
+         */
         b.ibSearchPerson.setOnClickListener {
             vm.searchUser(
                 b.etLogin.text.toString(),
@@ -42,6 +51,9 @@ class SearchUsersWindow : AppCompatActivity() {
             )
         }
 
+        /**
+         * Нажатие кнопки выхода из текущего окна
+         */
         b.ibBack.setOnClickListener {
             finish()
         }

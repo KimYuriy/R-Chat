@@ -95,7 +95,7 @@ class RegisterWindow : AppCompatActivity() {
          * Обработка нажатия текста авторизации
          */
         b.btnRegister.setOnClickListener {
-            vm.onRegisterBtnClicked(
+            vm.onRegisterClicked(
                 this,
                 RegisterDataClass(
                     b.etEmail.text.toString(),
@@ -115,6 +115,7 @@ class RegisterWindow : AppCompatActivity() {
     private fun setRegisterBtnEnabled() {
         b.btnRegister.isEnabled =
             b.tilEmail.helperText == null && b.tilPublicID.helperText == null &&
-                    b.tilPassword.helperText == null && b.tilRepeatPassword.helperText == null
+                    b.tilPassword.helperText == null && b.tilRepeatPassword.helperText == null &&
+                    b.etPassword.text.toString() == b.etRepeatPassword.text.toString()
     }
 }

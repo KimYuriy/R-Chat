@@ -29,7 +29,7 @@ class ChatsDB private constructor(private val applicationContext: Context) {
     }
 
     private val _chatsLiveData = MutableLiveData<ArrayList<ChatDataClass>>()
-    private val _messagesLiveData = MutableLiveData<ArrayList<MessageDataClass>>()
+    private val _messagesLiveData = MutableLiveData<ArrayList<ReceivedMessageDataClass>>()
 
     /**
      * Функция добавления чата в массив чатов
@@ -50,7 +50,7 @@ class ChatsDB private constructor(private val applicationContext: Context) {
     /**
      * Функция добавления сообщения в массив сообщений
      */
-    fun addMessage(newMessage: MessageDataClass) {
+    fun addMessage(newMessage: ReceivedMessageDataClass) {
         //TODO: Сделать поиск сообщения
         _messagesLiveData.value?.add(newMessage)
     }
@@ -58,7 +58,7 @@ class ChatsDB private constructor(private val applicationContext: Context) {
     /**
      * Функция добавления сообщений в массив сообщений
      */
-    fun addMessages(messages: ArrayList<MessageDataClass>) {
+    fun addMessages(messages: ArrayList<ReceivedMessageDataClass>) {
         _messagesLiveData.value?.clear()
         _messagesLiveData.value?.addAll(messages)
     }
@@ -66,14 +66,16 @@ class ChatsDB private constructor(private val applicationContext: Context) {
     /**
      * Функция получения массива сообщений
      */
-    fun getMessages() = _messagesLiveData as LiveData<ArrayList<MessageDataClass>>
+    fun getMessages() = _messagesLiveData as LiveData<ArrayList<ReceivedMessageDataClass>>
 
     /**
      * Функция получения массива чатов
      */
     fun getChats() = _chatsLiveData as LiveData<ArrayList<ChatDataClass>>
 
-
+    /**
+     * Конструктор класса
+     */
     init {
         _chatsLiveData.value = arrayListOf()
         _messagesLiveData.value = arrayListOf()

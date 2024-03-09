@@ -42,7 +42,7 @@ class AuthWindow : AppCompatActivity() {
             override fun afterTextChanged(p0: Editable?) {
             }
         })
-
+        
         /**
          * Отслеживание изменений в поле ввода пароля
          */

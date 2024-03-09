@@ -41,27 +41,14 @@ class UserDB private constructor(private val applicationContext: Context) {
     private val _userLiveData = MutableLiveData<UserDataClass>()
 
     /**
-     * Функция записи данных пользователя в поле [_userLiveData].
-     * Записывает переданные данные в поле [_userLiveData] типа [UserDataClass]
-     * @param userData данные пользователя типа [UserDataClass]
-     */
-    fun setUserData(userData: UserDataClass?) {
-        _userLiveData.value = userData
-    }
-
-    /**
      * Функция сохранения данных пользователя в память приложения.
      * Преобразует данные из [_userLiveData] в JSON-объект и сохраняет объект в виде строки в
      * EncryptedSharedPreferences
      */
-    fun saveUserData(userData: UserDataClass?) {
-        setUserData(userData)
-        val obj = JSONObject().apply {
-            put("public_id", userData?.publicId)
-            put("access_token", userData?.accessToken)
-            put("refresh_token", userData?.refreshToken)
-        }
-        getEncryptedSharedPrefs().edit().putString(USER_DATA_KEY, obj.toString()).apply()
+    fun saveUserData(userData: UserDataClass) {
+        _userLiveData.value = userData
+        Log.d("UserDB:saveUserData", userData.toString())
+        getEncryptedSharedPrefs().edit().putString(USER_DATA_KEY, userData.toJson().toString()).apply()
     }
 
     /**
@@ -73,11 +60,8 @@ class UserDB private constructor(private val applicationContext: Context) {
         val data = getEncryptedSharedPrefs().getString(USER_DATA_KEY, null)
         _userLiveData.value = if (data != null) {
             val obj = JSONObject(data)
-            UserDataClass(
-                obj["public_id"] as String,
-                obj["access_token"] as String,
-                obj["refresh_token"] as String
-            )
+            Log.d("UserDB:loadUserData", obj.toString())
+            UserDataClass.fromJson(obj)
         } else null
     }
 

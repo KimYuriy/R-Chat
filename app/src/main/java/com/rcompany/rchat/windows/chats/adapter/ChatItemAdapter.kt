@@ -11,9 +11,12 @@ import com.rcompany.rchat.utils.databases.chats.ChatDataClass
 import com.rcompany.rchat.windows.chats.adapter.callbacks.ChatsDiffCallback
 import java.util.Base64
 
+/**
+ * Адаптер для списка чатов
+ */
 class ChatItemAdapter(
     private val array: ArrayList<ChatDataClass>,
-    private val userId: Int
+    private val userId: String
 ) : RecyclerView.Adapter<ChatItemAdapter.ViewHolder>() {
     inner class ViewHolder(private val b: ChatItemBinding): RecyclerView.ViewHolder(b.root) {
 
@@ -22,6 +25,10 @@ class ChatItemAdapter(
 
             }
         }
+
+        /**
+         * Установка данных чата
+         */
         fun bind(data: ChatDataClass) {
             b.tvLogin.text = data.chatName
             b.tvMessage.text = data.lastMessage
@@ -51,6 +58,9 @@ class ChatItemAdapter(
 
     override fun getItemCount() = array.size
 
+    /**
+     * Обновление списка чатов
+     */
     fun updateChats(newArray: ArrayList<ChatDataClass>) {
         val dr = DiffUtil.calculateDiff(ChatsDiffCallback(array, newArray))
         array.clear()

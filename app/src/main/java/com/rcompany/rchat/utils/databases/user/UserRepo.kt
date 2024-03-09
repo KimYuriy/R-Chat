@@ -1,5 +1,9 @@
 package com.rcompany.rchat.utils.databases.user
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 /**
  * Репозиторий БД пользователя.
  * @property userDB база данных пользователя типа [UserDB]
@@ -28,21 +32,21 @@ class UserRepo private constructor(private val userDB: UserDB) {
     }
 
     /**
-     * Функция сохранения данных пользователя.
-     * Вызывает метод [setUserData] из БД пользователя
-     * @param userData данные пользователя типа [UserDataClass]
-     */
-    fun setUserData(userData: UserDataClass) = userDB.setUserData(userData)
-
-    /**
      * Функция получения данных пользователя.
      * Вызывает метод [getUserData] из БД пользователя
      * @return данные пользователя из БД пользователя
      */
     fun getUserData() = userDB.getUserData()
 
-    fun saveUserData(userData: UserDataClass?) = userDB.saveUserData(userData)
+    /**
+     * Функция сохранения данных пользователя
+     * @param userData данные пользователя типа [UserDataClass]
+     */
+    fun saveUserData(userData: UserDataClass) = userDB.saveUserData(userData)
 
+    /**
+     * Функция загрузки данных пользователя
+     */
     fun loadUserData() = userDB.loadUserData()
 
     /**

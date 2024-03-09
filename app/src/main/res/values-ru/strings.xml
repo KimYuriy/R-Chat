@@ -40,4 +40,5 @@
     <string name="access_forbidden_text">Доступ к ресурсу запрещен</string>
     <string name="wrong_auth_data_text">Введены неверные данные для авторизации</string>
     <string name="unexpected_error_text">Возникла непредвиденная ошибка</string>
+    <string name="users_not_found_text">Пользователи не найдены!</string>
 </resources>

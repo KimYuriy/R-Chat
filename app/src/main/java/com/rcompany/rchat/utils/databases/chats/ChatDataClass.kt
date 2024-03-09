@@ -15,5 +15,5 @@ data class ChatDataClass(
     var chatAvatar: String?,
     var lastMessage: String,
     var time: String,
-    var lastMessageSenderId: Int
+    var lastMessageSenderId: String
 )

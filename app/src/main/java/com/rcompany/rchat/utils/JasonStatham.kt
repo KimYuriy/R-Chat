@@ -2,8 +2,17 @@ package com.rcompany.rchat.utils
 
 import org.json.JSONObject
 
+/**
+ * Класс для работы с json
+ */
 class JasonStatham private constructor() {
     companion object {
+
+        /**
+         * Функция преобразования строки в массив json
+         * @param source строка типа [String]
+         * @return массив json типа [List]
+         */
         fun string2ListJSONs(source: String): List<JSONObject> {
             val jsonList = mutableListOf<JSONObject>()
             val json = source.drop(1).dropLast(1)

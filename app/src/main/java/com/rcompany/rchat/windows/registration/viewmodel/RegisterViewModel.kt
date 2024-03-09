@@ -9,21 +9,17 @@ import android.util.Patterns
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.fingerprintjs.android.fingerprint.Fingerprinter
-import com.fingerprintjs.android.fingerprint.FingerprinterFactory
 import com.rcompany.rchat.R
 import com.rcompany.rchat.databinding.CodeConfirmAlertBinding
-import com.rcompany.rchat.utils.databases.user.UserDataClass
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
 import com.rcompany.rchat.windows.authorization.AuthWindow
 import com.rcompany.rchat.utils.databases.window_dataclasses.RegisterDataClass
-import com.rcompany.rchat.utils.enums.ServerEndpoints
-import com.rcompany.rchat.utils.jwt.JwtUtils
-import com.rcompany.rchat.utils.network.Requests
-import com.rcompany.rchat.utils.network.ResponseState
-import com.rcompany.rchat.utils.network.address.dataclass.UserMetadata
-import com.rcompany.rchat.windows.settings.additional_user_info.AdditionalUserInfoWindow
+import com.rcompany.rchat.utils.network.NetworkRepo
+import com.rcompany.rchat.utils.network.address.ServerEndpoints
+import com.rcompany.rchat.utils.network.requests.ResponseState
+import com.rcompany.rchat.utils.network.token.Tokens
+import com.rcompany.rchat.windows.chats.ChatsWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,58 +47,51 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      * @param from окно типа [AppCompatActivity], в котором вызвана функция
      * @param data данные, введенные пользователем при регистрации типа [RegisterDataClass]
      */
-    fun onRegisterBtnClicked(from: AppCompatActivity, data: RegisterDataClass) = CoroutineScope(Dispatchers.IO).launch {
-        val requests = Requests(from.applicationContext)
-        var deviceFingerprint = ""
-        FingerprinterFactory.create(from).getFingerprint(version = Fingerprinter.Version.V_5) {
-            deviceFingerprint = it
-        }
-        when (val state = requests.post(
-            data.toMap(),
-            UserMetadata(deviceFingerprint, null),
-            ServerEndpoints.REGISTER.toString()
-        )) {
-            is ResponseState.Success -> {
-                val responseData = state.data
-                val stringedResponseData = responseData.toString()
-                if (stringedResponseData.length == 2) {
-                    val authData = AuthDataClass(
-                        data.email,
-                        data.password
-                    ).toMap()
-                    when (val authState = requests.post(
-                        authData,
-                        UserMetadata(deviceFingerprint, null),
-                        ServerEndpoints.AUTH.toString()
-                    )) {
-                        is ResponseState.Success -> {
-                            val accessToken = JwtUtils.parseJwtToken(authState.data["access_token"].toString())
-                            val refreshToken = JwtUtils.parseJwtToken(authState.data["refresh_token"].toString())
-                            Log.d("User", "Access Token: $accessToken")
-                            Log.d("User", "Refresh Token: $refreshToken")
-                            withContext(Dispatchers.Main) {
-                                userRepo.saveUserData(UserDataClass(
-                                    accessToken!!["public_id"].toString(),
-                                    accessToken.toString(),
-                                    refreshToken.toString()
-                                ))
-                                from.startActivity(Intent(from, AdditionalUserInfoWindow::class.java))
-                                from.finish()
+    fun onRegisterClicked(from: AppCompatActivity, data: RegisterDataClass) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val networkRepo = NetworkRepo(from.applicationContext, userRepo)
+            when (val state = networkRepo.post(
+                ServerEndpoints.REGISTER.toString(),
+                data.toMap(),
+            )) {
+                is ResponseState.Success -> {
+                    Log.d("RegisterViewModel:onRegisterClicked", "Registration successful")
+                    val responseData = state.data
+                    val stringedResponseData = responseData.toString()
+                    if (stringedResponseData.length == 2) {
+                        val authData = AuthDataClass(
+                            data.email,
+                            data.password
+                        ).toMap()
+                        when (val authState = networkRepo.post(
+                            ServerEndpoints.AUTH.toString(),
+                            authData,
+                        )) {
+                            is ResponseState.Success -> {
+                                Log.d("RegisterViewModel:onRegisterClicked", "Authorization successful")
+                                val userData = Tokens(state.data).parseToken()
+                                withContext(Dispatchers.Main) {
+                                    userRepo.saveUserData(userData)
+                                    from.startActivity(Intent(from, ChatsWindow::class.java))
+                                    from.finish()
+                                }
                             }
-                        }
-                        is ResponseState.Failure -> {
-                            withContext(Dispatchers.Main) {
-                                val dialog = getFailureDialog(from, authState)
-                                dialog.show()
+                            is ResponseState.Failure -> {
+                                Log.e("RegisterViewModel:onRegisterClicked", "Authorization failed")
+                                withContext(Dispatchers.Main) {
+                                    val dialog = getFailureDialog(from, authState)
+                                    dialog.show()
+                                }
                             }
                         }
                     }
                 }
-            }
-            is ResponseState.Failure -> {
-                withContext(Dispatchers.Main) {
-                    val dialog = getFailureDialog(from, state)
-                    dialog.show()
+                is ResponseState.Failure -> {
+                    Log.e("RegisterViewModel:onRegisterClicked", "Registration failed")
+                    withContext(Dispatchers.Main) {
+                        val dialog = getFailureDialog(from, state)
+                        dialog.show()
+                    }
                 }
             }
         }
@@ -168,6 +157,9 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
         return dialog
     }
 
+    /**
+     * Функция создания диалогового окна с кодом и текстом ошибки
+     */
     private fun getFailureDialog(from: AppCompatActivity, state: ResponseState.Failure) = AlertDialog.Builder(from).apply {
             setCancelable(true)
             setTitle("${from.getString(R.string.error_text)} ${state.code}")
