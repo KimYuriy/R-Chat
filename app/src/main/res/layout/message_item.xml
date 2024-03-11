@@ -22,6 +22,7 @@
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/llLeftContainer"
+            android:layout_marginEnd="3dp"
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView

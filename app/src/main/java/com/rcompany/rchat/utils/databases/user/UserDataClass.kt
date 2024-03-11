@@ -15,23 +15,27 @@ data class UserDataClass(
     val refreshToken: String,
     val accessTokenExp: Long
 ) {
-
     companion object {
+        private const val PUBLIC_ID_KEY = "public_id"
+        private const val ACCESS_TOKEN_KEY = "access_token"
+        private const val REFRESH_TOKEN_KEY = "refresh_token"
+        private const val ACCESS_TOKEN_EXP_KEY = "access_token_exp"
+
         fun fromJson(json: JSONObject): UserDataClass {
             return UserDataClass(
-                json["public_id"] as String,
-                json["access_token"] as String,
-                json["refresh_token"] as String,
-                (json["access_token_exp"] as Int).toLong()
+                json[PUBLIC_ID_KEY] as String,
+                json[ACCESS_TOKEN_KEY] as String,
+                json[REFRESH_TOKEN_KEY] as String,
+                (json[ACCESS_TOKEN_EXP_KEY] as Int).toLong()
             )
         }
     }
 
     fun toJson(): JSONObject {
         return JSONObject()
-            .put("public_id", publicId)
-            .put("access_token", accessToken)
-            .put("refresh_token", refreshToken)
-            .put("access_token_exp", accessTokenExp)
+            .put(PUBLIC_ID_KEY, publicId)
+            .put(ACCESS_TOKEN_KEY, accessToken)
+            .put(REFRESH_TOKEN_KEY, refreshToken)
+            .put(ACCESS_TOKEN_EXP_KEY, accessTokenExp)
     }
 }

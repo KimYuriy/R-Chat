@@ -1,17 +1,20 @@
 package com.rcompany.rchat.utils.network.socket
 
 import android.util.Log
+import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.network.address.ServerAddress
 import io.socket.client.IO
+import io.socket.client.Socket
+import org.json.JSONObject
 
 /**
  * Класс для работы с сокетом
  */
-class Websocket {
+class Websocket(private val chatsRepo: ChatsRepo) {
     companion object {
 
         /**
-         * Переменная-инстанс сокета
+         * Переменная-экземпляр сокета
          */
         @Volatile
         private var instance: Websocket? = null
@@ -20,9 +23,9 @@ class Websocket {
          * Функция возвращения экземпляра класса
          * @return экземпляр класса типа [Websocket]
          */
-        fun getInstance() =
+        fun getInstance(chatsRepo: ChatsRepo) =
             instance ?: synchronized(this) {
-                instance ?: Websocket().also {
+                instance ?: Websocket(chatsRepo).also {
                     instance = it
                 }
             }
@@ -31,7 +34,7 @@ class Websocket {
     /**
      * Переменная сокета
      */
-    private val socket = IO.socket("ws://${ServerAddress.value}")
+    private var socket: Socket? = null
 
     /**
      * Конструктор класса
@@ -44,22 +47,38 @@ class Websocket {
      * Функция открытия соединения
      */
     private fun openConnection() {
-        socket.connect()
-        if (socket.connected()) Log.d("Websocket:openConnection", "Connected")
+        val options = IO.Options().apply {
+            reconnection = true
+            path = "/socks"
+            transports = arrayOf("websocket")
+        }
+        socket = IO.socket("${ServerAddress.value}/", options)
+        socket!!.connect()
+        if (socket!!.connected()) Log.d("Websocket:openConnection", "Connected")
+
+        socket!!.on(Socket.EVENT_CONNECT_ERROR) {
+            Log.e("Websocket:openConnection", "Connect error: ${it[0]}")
+        }
+
+        socket!!.on("message") { args ->
+            Log.d("Websocket:openConnection", args.toString())
+            chatsRepo.receiveMessage(args[0] as JSONObject)
+        }
     }
 
     /**
      * Функция закрытия соединения
      */
     fun closeConnection() {
-        socket.close()
-        if (socket.connected()) Log.d("Websocket:closeConnection", "Disconnected")
+        socket!!.close()
+        if (socket!!.connected()) Log.d("Websocket:closeConnection", "Disconnected")
     }
 
     /**
      * Функция отправки сообщения
      */
-    fun sendMessage(messageData: String) {
-        socket.send()
+    fun send(messageData: String) {
+        Log.d("Websocket:send", messageData)
+        socket!!.emit("message", messageData)
     }
 }

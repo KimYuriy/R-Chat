@@ -41,8 +41,13 @@ class MessagesWindow : AppCompatActivity() {
         /**
          * Отслеживание изменения массива сообщений
          */
-        vm.messagesLiveData.observe(this) {
+        vm.messages.observe(this) {
             adapter.updateMessages(it)
+        }
+
+        b.btnSend.setOnClickListener {
+            vm.sendMessage(b.etMessage.text.toString())
+            b.etMessage.text.clear()
         }
 
         /**

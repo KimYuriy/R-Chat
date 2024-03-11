@@ -16,19 +16,15 @@ class MessagesViewModel(
     private val userRepo: UserRepo
 ): ViewModel() {
 
-    /**
-     * Массив с сообщениями типа [ArrayList]
-     */
-    private val _messagesList = ArrayList<ReceivedMessageDataClass>()
-
-    /**
-     * Массив с сообщениями типа, доступный извне [MutableLiveData]
-     */
-    val messagesLiveData = MutableLiveData<ArrayList<ReceivedMessageDataClass>>()
+    val messages = chatsRepo.getMessagesLiveData()
 
     /**
      * Функция получения данных пользователя
      * @return данные пользователя типа
      */
     fun getUserData() = userRepo.getUserData()
+
+    fun sendMessage(message: String) {
+        chatsRepo.sendMessage(message)
+    }
 }

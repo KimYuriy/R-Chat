@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.utils.databases.chats.ChatDataClass
 import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.databases.user.UserRepo
+import com.rcompany.rchat.utils.network.socket.Websocket
 import com.rcompany.rchat.windows.search.SearchUsersWindow
 
 /**
@@ -16,15 +17,7 @@ import com.rcompany.rchat.windows.search.SearchUsersWindow
  */
 class ChatsViewModel(private val chatsRepo: ChatsRepo, private val userRepo: UserRepo): ViewModel() {
 
-    /**
-     * Приватный список всех чатов пользователя типа [ArrayList]
-     */
-    private val _chatsList = ArrayList<ChatDataClass>()
-
-    /**
-     * Список всех чатов пользователя, доступных извне типа [MutableLiveData]
-     */
-    val chatsLiveData = MutableLiveData<ArrayList<ChatDataClass>>()
+    val chats = chatsRepo.getChatsLiveData()
 
     /**
      * Функция открытия окна поиска пользователей

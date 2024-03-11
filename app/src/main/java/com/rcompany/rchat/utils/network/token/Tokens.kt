@@ -17,6 +17,7 @@ class Tokens(private val token: JSONObject) {
      * @return данные пользователя типа [UserDataClass]
      */
     fun parseToken(public_id: String? = null): UserDataClass {
+        Log.d("Tokens:parseToken", token.toString())
         val encodedAccessToken = token["access_token"] as String
         val encodedRefreshToken = token["refresh_token"] as String
         val decodedAccessToken = parseJwtToken(encodedAccessToken)

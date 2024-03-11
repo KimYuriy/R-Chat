@@ -69,7 +69,7 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
                         )) {
                             is ResponseState.Success -> {
                                 Log.d("RegisterViewModel:onRegisterClicked", "Authorization successful")
-                                val userData = Tokens(state.data).parseToken()
+                                val userData = Tokens(authState.data).parseToken()
                                 withContext(Dispatchers.Main) {
                                     userRepo.saveUserData(userData)
                                     from.startActivity(Intent(from, ChatsWindow::class.java))

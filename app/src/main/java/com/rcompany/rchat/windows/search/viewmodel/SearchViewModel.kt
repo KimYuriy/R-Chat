@@ -59,6 +59,7 @@ class SearchViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     private fun updateFoundUsers(source: JSONObject) {
         if (_foundUsersList.isNotEmpty()) _foundUsersList.clear()
+        Log.d("SearchViewModel:updateFoundUsers", "$source")
         val usersList = JasonStatham.string2ListJSONs(source["users"].toString())
         for (user in usersList) {
             val avatar = if (user["avatar_url"].toString() == "null") null

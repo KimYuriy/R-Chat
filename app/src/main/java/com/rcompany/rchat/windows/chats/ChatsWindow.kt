@@ -44,7 +44,7 @@ class ChatsWindow : AppCompatActivity() {
         /**
          * Отслеживание изменений в списке чатов
          */
-        vm.chatsLiveData.observe(this) {
+        vm.chats.observe(this) {
             adapter.updateChats(it)
         }
 
