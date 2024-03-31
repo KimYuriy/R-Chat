@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.rcompany.rchat.utils.databases.user.dataclasses.UserDataClass
 import org.json.JSONObject
 
 /**

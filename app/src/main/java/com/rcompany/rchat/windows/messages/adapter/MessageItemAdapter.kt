@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.rcompany.rchat.databinding.MessageItemBinding
-import com.rcompany.rchat.utils.databases.chats.ReceivedMessageDataClass
+import com.rcompany.rchat.databinding.MessageItemIncomingBinding
+import com.rcompany.rchat.databinding.MessageItemOutgoingBinding
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.MessageDataClass
 import com.rcompany.rchat.windows.messages.adapter.callbacks.MessagesDiffCallback
 
 /**
@@ -14,38 +15,56 @@ import com.rcompany.rchat.windows.messages.adapter.callbacks.MessagesDiffCallbac
  * @property userId id текущего пользователя
  */
 class MessageItemAdapter(
-    private val array: ArrayList<ReceivedMessageDataClass>,
+    private val array: ArrayList<MessageDataClass>,
     private val userId: String
-) : RecyclerView.Adapter<MessageItemAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-     inner class ViewHolder(private val b: MessageItemBinding): RecyclerView.ViewHolder(b.root) {
-        init {
-
-        }
-
-         /**
-          * Установка элементов в отображаемом сообщении
-          */
-         fun  bind(data: ReceivedMessageDataClass) {
-
-         }
-     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val b = MessageItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(b)
+    companion object {
+        private const val TYPE_INCOMING = 0
+        private const val TYPE_OUTGOING = 1
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(array[position])
+    override fun getItemViewType(position: Int): Int {
+        return if (array[position].sender_user_id == userId) TYPE_OUTGOING else TYPE_INCOMING
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return if (viewType == TYPE_INCOMING) {
+            val b = MessageItemIncomingBinding.inflate(layoutInflater, parent, false)
+            IncomingViewHolder(b)
+        } else {
+            val b = MessageItemOutgoingBinding.inflate(layoutInflater, parent, false)
+            OutgoingViewHolder(b)
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = array[position]
+        if (getItemViewType(position) == TYPE_INCOMING) {
+            (holder as IncomingViewHolder).bind(item)
+        } else {
+            (holder as OutgoingViewHolder).bind(item)
+        }
     }
 
     override fun getItemCount() = array.size
 
-    /**
-     * Обновление списка сообщений
-     */
-    fun updateMessages(newArray: ArrayList<ReceivedMessageDataClass>) {
+    inner class IncomingViewHolder(private val b: MessageItemIncomingBinding) : RecyclerView.ViewHolder(b.root) {
+        fun bind(data: MessageDataClass) {
+            b.tvMessage.text = data.message_text
+            b.tvTime.text = data.created_at
+        }
+    }
+
+    inner class OutgoingViewHolder(private val b: MessageItemOutgoingBinding) : RecyclerView.ViewHolder(b.root) {
+        fun bind(data: MessageDataClass) {
+            b.tvMessage.text = data.message_text
+            b.tvTime.text = data.created_at
+        }
+    }
+
+    fun updateMessages(newArray: ArrayList<MessageDataClass>) {
         val dr = DiffUtil.calculateDiff(MessagesDiffCallback(array, newArray))
         array.clear()
         array.addAll(newArray)

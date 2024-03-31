@@ -12,8 +12,9 @@ import com.rcompany.rchat.utils.databases.user.UserRepo
  */
 @Suppress("UNCHECKED_CAST")
 class MessagesViewModelFactory(
+    private val currentChatId: String,
     private val chatsRepo: ChatsRepo,
     private val userRepo: UserRepo
 ): ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel> create(modelClass: Class<T>) = MessagesViewModel(chatsRepo, userRepo) as T
+    override fun <T : ViewModel> create(modelClass: Class<T>) = MessagesViewModel(currentChatId, chatsRepo, userRepo) as T
 }

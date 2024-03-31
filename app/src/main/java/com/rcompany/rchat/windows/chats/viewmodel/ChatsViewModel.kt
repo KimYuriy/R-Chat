@@ -1,13 +1,11 @@
 package com.rcompany.rchat.windows.chats.viewmodel
 
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.rcompany.rchat.utils.databases.chats.ChatDataClass
 import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.databases.user.UserRepo
-import com.rcompany.rchat.utils.network.socket.Websocket
 import com.rcompany.rchat.windows.search.SearchUsersWindow
 
 /**
@@ -15,7 +13,10 @@ import com.rcompany.rchat.windows.search.SearchUsersWindow
  * @property chatsRepo репозиторий БД пользователя типа [ChatsRepo]
  * @property userRepo репозиторий БД пользователя типа [UserRepo]
  */
-class ChatsViewModel(private val chatsRepo: ChatsRepo, private val userRepo: UserRepo): ViewModel() {
+class ChatsViewModel(
+    private val chatsRepo: ChatsRepo,
+    private val userRepo: UserRepo
+): ViewModel() {
 
     val chats = chatsRepo.getChatsLiveData()
 
@@ -31,4 +32,10 @@ class ChatsViewModel(private val chatsRepo: ChatsRepo, private val userRepo: Use
      * @return данные пользователя типа
      */
     fun getUserData() = userRepo.getUserData()
+
+    override fun onCleared() {
+        chatsRepo.closeConnection()
+        Log.w("ChatsViewModel::onCleared", "onCleared")
+        super.onCleared()
+    }
 }

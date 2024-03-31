@@ -1,16 +1,19 @@
 package com.rcompany.rchat.utils.network.socket
 
 import android.util.Log
-import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.network.address.ServerAddress
 import io.socket.client.IO
 import io.socket.client.Socket
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 /**
  * Класс для работы с сокетом
  */
-class Websocket(private val chatsRepo: ChatsRepo) {
+class Websocket {
     companion object {
 
         /**
@@ -23,9 +26,9 @@ class Websocket(private val chatsRepo: ChatsRepo) {
          * Функция возвращения экземпляра класса
          * @return экземпляр класса типа [Websocket]
          */
-        fun getInstance(chatsRepo: ChatsRepo) =
+        fun getInstance() =
             instance ?: synchronized(this) {
-                instance ?: Websocket(chatsRepo).also {
+                instance ?: Websocket().also {
                     instance = it
                 }
             }
@@ -37,16 +40,9 @@ class Websocket(private val chatsRepo: ChatsRepo) {
     private var socket: Socket? = null
 
     /**
-     * Конструктор класса
-     */
-    init {
-        openConnection()
-    }
-
-    /**
      * Функция открытия соединения
      */
-    private fun openConnection() {
+    fun openConnection() {
         val options = IO.Options().apply {
             reconnection = true
             path = "/socks"
@@ -55,14 +51,26 @@ class Websocket(private val chatsRepo: ChatsRepo) {
         socket = IO.socket("${ServerAddress.value}/", options)
         socket!!.connect()
         if (socket!!.connected()) Log.d("Websocket:openConnection", "Connected")
+    }
 
+    fun listenEvents(
+        parseNewMessage: (JSONObject) -> Unit,
+        editMessage: (JSONObject) -> Unit,
+        deleteMessage: (JSONObject) -> Unit,
+        readMessage: (JSONObject) -> Unit
+    ) {
         socket!!.on(Socket.EVENT_CONNECT_ERROR) {
             Log.e("Websocket:openConnection", "Connect error: ${it[0]}")
         }
 
-        socket!!.on("message") { args ->
-            Log.d("Websocket:openConnection", args.toString())
-            chatsRepo.receiveMessage(args[0] as JSONObject)
+        GlobalScope.launch(Dispatchers.IO) {
+            socket!!.on("_new_message_") { args -> parseNewMessage(args[0] as JSONObject) }
+
+            socket!!.on("_edit_message_") { args -> editMessage(args[0] as JSONObject) }
+
+            socket!!.on("_delete_message_") { args -> deleteMessage(args[0] as JSONObject) }
+
+            socket!!.on("_read_message_") { args -> readMessage(args[0] as JSONObject) }
         }
     }
 
@@ -71,14 +79,29 @@ class Websocket(private val chatsRepo: ChatsRepo) {
      */
     fun closeConnection() {
         socket!!.close()
-        if (socket!!.connected()) Log.d("Websocket:closeConnection", "Disconnected")
+        if (socket!!.connected()) Log.w("Websocket:closeConnection", "Disconnected")
     }
 
     /**
      * Функция отправки сообщения
      */
-    fun send(messageData: String) {
-        Log.d("Websocket:send", messageData)
-        socket!!.emit("message", messageData)
+    fun sendMessage(messageData: JSONObject) {
+        Log.d("Websocket:send", messageData.toString())
+        socket!!.emit("_new_message_", messageData)
+    }
+
+    fun editMessage(messageData: JSONObject) {
+        Log.d("Websocket:edit", messageData.toString())
+        socket!!.emit("_edit_message_", messageData)
+    }
+
+    fun deleteMessage(messageData: JSONObject) {
+        Log.d("Websocket:delete", messageData.toString())
+        socket!!.emit("_delete_message_", messageData)
+    }
+
+    fun readMessage(messageData: JSONObject) {
+        Log.d("Websocket:read", messageData.toString())
+        socket!!.emit("_read_message_", messageData)
     }
 }

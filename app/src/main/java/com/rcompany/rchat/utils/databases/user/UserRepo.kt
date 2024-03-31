@@ -1,8 +1,6 @@
 package com.rcompany.rchat.utils.databases.user
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.rcompany.rchat.utils.databases.user.dataclasses.UserDataClass
 
 /**
  * Репозиторий БД пользователя.

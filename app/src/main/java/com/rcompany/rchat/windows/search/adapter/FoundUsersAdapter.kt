@@ -29,10 +29,7 @@ class FoundUsersAdapter(
                 val intent = Intent(
                     itemView.context,
                     MessagesWindow::class.java
-                ).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                    putExtra("public_id", array[adapterPosition].publicId)
-                }
+                ).putExtra("public_id", array[adapterPosition].publicId)
                 itemView.context.startActivity(intent)
             }
 

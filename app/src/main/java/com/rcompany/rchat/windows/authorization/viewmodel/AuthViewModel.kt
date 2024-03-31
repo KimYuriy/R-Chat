@@ -15,7 +15,7 @@ import com.rcompany.rchat.databinding.PasswordRecoveryAlertBinding
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.network.address.ServerEndpoints
 import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
-import com.rcompany.rchat.utils.network.NetworkRepo
+import com.rcompany.rchat.utils.network.NetworkManager
 import com.rcompany.rchat.utils.network.requests.ResponseState
 import com.rcompany.rchat.utils.network.token.Tokens
 import com.rcompany.rchat.windows.chats.ChatsWindow
@@ -64,7 +64,7 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun onLoginClicked(from: AppCompatActivity, data: AuthDataClass) {
         CoroutineScope(Dispatchers.IO).launch {
-            when (val state = NetworkRepo(from.applicationContext, userRepo).post(
+            when (val state = NetworkManager(from.applicationContext, userRepo).post(
                 ServerEndpoints.AUTH.toString(),
                 data.toMap()
             )) {

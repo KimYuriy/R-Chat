@@ -1,4 +1,4 @@
-package com.rcompany.rchat.utils.databases.chats
+package com.rcompany.rchat.utils.databases.chats.dataclasses.chats
 
 /**
  * Дата-класс данных чата

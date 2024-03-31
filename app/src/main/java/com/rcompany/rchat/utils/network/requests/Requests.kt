@@ -1,7 +1,6 @@
 package com.rcompany.rchat.utils.network.requests
 
 import android.content.Context
-import com.rcompany.rchat.utils.network.dataclass.UserMetadata
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -15,22 +14,26 @@ import org.json.JSONObject
  * Класс для работы с запросами в сеть
  */
 class Requests(private val context: Context) {
+    companion object {
+        private const val FINGERPRINT_KEY = "fingerprint"
+        private const val TOKEN_KEY = "token"
+    }
 
     /**
      * POST-функция отправки POST-запроса
      * @param data данные для отправки типа [Map]. По умолчанию установлено значение [mapOf]
-     * @param metadata данные для отправки типа [UserMetadata]
+     * @param metadata данные для отправки типа [Map]
      * @param url адрес для отправки запроса типа [String]
      * @return состояние ответа типа [ResponseState]
      */
-    fun post(data: Map<String, String?> = mapOf(), metadata: UserMetadata, url: String): ResponseState {
+    fun post(data: Map<String, String?> = mapOf(), metadata: Map<String, String?>, url: String): ResponseState {
         try {
 //          StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder().permitAll().build())
             val client = OkHttpClient()
             val jsonData = JSONObject(data).toString().toRequestBody("application/json".toMediaTypeOrNull())
             val requestUrl = url.toHttpUrlOrNull()?.toUrl() ?: throw IOException("Bad URL")
             val request = Request.Builder()
-                .header("Fingerprint-ID", metadata.deviceFingerprint)
+                .header("Fingerprint-ID", metadata[FINGERPRINT_KEY]!!)
                 .url(requestUrl)
                 .post(jsonData)
                 .build()
@@ -47,21 +50,21 @@ class Requests(private val context: Context) {
 
     /**
      * GET-функция отправки GET-запроса
-     * @param source данные для отправки типа [String]
-     * @param metadata метаданные для отправки типа [UserMetadata]
+     * @param metadata метаданные для отправки типа [Map]
+     * @param metadata метаданные для отправки типа [Map]
      * @param url адрес для отправки типа [String]
      * @return состояние ответа типа [ResponseState]
      */
-    fun get(source: String, metadata: UserMetadata, url: String): ResponseState {
+    fun get(metadata: Map<String, String?>, url: String, queryParams: Map<String, String>): ResponseState {
         try {
             val client = OkHttpClient()
             val requestUrl = url.toHttpUrlOrNull()?.newBuilder()
-                ?.addQueryParameter("match_str", source)
+                ?.apply { queryParams.forEach { (name, value) -> addQueryParameter(name, value) } }
                 ?.build()
                 ?.toUrl() ?: throw IOException("Bad url")
             val request = Request.Builder()
-                .header("Fingerprint-ID", metadata.deviceFingerprint)
-                .header("Authorization", "Bearer ${metadata.token}")
+                .header("Fingerprint-ID", metadata[FINGERPRINT_KEY]!!)
+                .header("Authorization", "Bearer ${metadata[TOKEN_KEY]}")
                 .url(requestUrl)
                 .get()
                 .build()
@@ -79,20 +82,20 @@ class Requests(private val context: Context) {
     /**
      * PUT-функция отправки PUT-запроса
      * @param requestBody данные для отправки типа [RequestBody]
-     * @param metadata метаданные для отправки типа [UserMetadata]
+     * @param metadata метаданные для отправки типа [Map]
      * @param url адрес для отправки типа [String]
      * @return состояние ответа типа [ResponseState]
      */
     fun put(
         requestBody: RequestBody = mapOf<String, String?>().toString().toRequestBody(),
-        metadata: UserMetadata,
+        metadata: Map<String, String?>,
         url: String
     ): ResponseState {
         val client = OkHttpClient()
         val requestUrl = url.toHttpUrlOrNull()?.toUrl()?: throw IOException("Bad URL")
         val request = Request.Builder()
-            .header("Fingerprint-ID", metadata.deviceFingerprint)
-            .header("Authorization", "Bearer ${metadata.token}")
+            .header("Fingerprint-ID", metadata[FINGERPRINT_KEY]!!)
+            .header("Authorization", "Bearer ${metadata[TOKEN_KEY]}")
             .url(requestUrl)
             .put(requestBody)
             .build()

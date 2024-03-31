@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/cameraImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cameraTextView"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/cameraTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Камера"
+        app:layout_constraintStart_toEndOf="@+id/cameraImageView"
+        app:layout_constraintTop_toTopOf="@+id/cameraImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/cameraImageView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/photoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_gallery"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cameraImageView"
+        app:layout_constraintEnd_toStartOf="@+id/photoTextView"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/photoTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Фото"
+        app:layout_constraintStart_toEndOf="@+id/photoImageView"
+        app:layout_constraintTop_toTopOf="@+id/photoImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/photoImageView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/videoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_video"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photoImageView"
+        app:layout_constraintEnd_toStartOf="@+id/videoTextView"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/videoTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Видео"
+        app:layout_constraintStart_toEndOf="@+id/videoImageView"
+        app:layout_constraintTop_toTopOf="@+id/videoImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/videoImageView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/fileImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_file"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoImageView"
+        app:layout_constraintEnd_toStartOf="@+id/fileTextView"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/fileTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Файл"
+        app:layout_constraintStart_toEndOf="@+id/fileImageView"
+        app:layout_constraintTop_toTopOf="@+id/fileImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/fileImageView"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

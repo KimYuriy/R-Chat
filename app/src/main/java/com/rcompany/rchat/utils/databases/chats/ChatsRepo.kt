@@ -1,15 +1,22 @@
 package com.rcompany.rchat.utils.databases.chats
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import com.rcompany.rchat.utils.network.socket.Websocket
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.MessageDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.incoming.ReceivedDeleteMessageDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.incoming.ReceivedEditMessageDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.incoming.ReceivedNewMessageDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.incoming.ReceivedReadMessageDataClass
+import com.rcompany.rchat.utils.network.NetworkManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 /**
  * Репозиторий для БД чатов и сообщений
  * @property chatsDB база данных чатов и сообщений типа [ChatsDB]
  */
-class ChatsRepo private constructor(private val chatsDB: ChatsDB) {
+class ChatsRepo private constructor(private val chatsDB: ChatsDB, private val networkManager: NetworkManager) {
     companion object {
 
         /**
@@ -24,43 +31,55 @@ class ChatsRepo private constructor(private val chatsDB: ChatsDB) {
          * @param chatsDB база данных чатов и сообщений типа [ChatsDB]
          * @return экземпляр репозитория [instance] типа [ChatsRepo]
          */
-        fun getInstance(chatsDB: ChatsDB) =
+        fun getInstance(chatsDB: ChatsDB, networkManager: NetworkManager) =
             instance ?: synchronized(this) {
-                instance ?: ChatsRepo(chatsDB).also {
+                instance ?: ChatsRepo(chatsDB, networkManager).also {
                     instance = it
                 }
             }
     }
 
-    private var websocket: Websocket? = null
+    fun getChatsLiveData() = chatsDB.getChats()
 
-    /**
-     * Приватный список всех чатов пользователя типа [ArrayList]
-     */
-    private val _chatsList = ArrayList<ChatDataClass>()
-    private val chatsLiveData = MutableLiveData<ArrayList<ChatDataClass>>()
+    fun getMessages() = chatsDB.getMessages()
 
-    /**
-     * Массив с сообщениями типа [ArrayList]
-     */
-    private val _messagesList = ArrayList<ReceivedMessageDataClass>()
-    private val messagesLiveData = MutableLiveData<ArrayList<ReceivedMessageDataClass>>()
+    fun filterMessagesByChatId(chatId: String) = chatsDB.filterMessagesByChatId(chatId)
 
-    fun getChatsLiveData() = chatsLiveData
+    fun clearMessagesLiveData() = chatsDB.clearMessagesLiveData()
 
-    fun getMessagesLiveData() = messagesLiveData
+    fun closeConnection() = networkManager.closeConnection()
 
-    fun receiveMessage(data: JSONObject) {
-        Log.d("ChatsRepo:processMessage", data.toString())
+    private fun responseParseMessage(data: JSONObject) {
+        chatsDB.addMessage(ReceivedNewMessageDataClass.fromJson(data))
     }
 
-    fun sendMessage(message: String) {
-        websocket?.send(message)
+    private fun responseEditMessage(data: JSONObject) {
+        chatsDB.editMessage(ReceivedEditMessageDataClass.fromJson(data))
     }
+
+    private fun responseDeleteMessage(data: JSONObject) {
+        chatsDB.deleteMessage(ReceivedDeleteMessageDataClass.fromJson(data))
+    }
+
+    private fun responseReadMessage(data: JSONObject) {
+        chatsDB.readMessage(ReceivedReadMessageDataClass.fromJson(data))
+    }
+
+    fun sendMessage(message: JSONObject) = networkManager.sendMessage(message)
+
+    fun editMessage(message: JSONObject) = networkManager.editMessage(message)
+
+    fun deleteMessage(message: JSONObject) = networkManager.deleteMessage(message)
+
+    fun readMessage(message: JSONObject) = networkManager.readMessage(message)
 
     init {
-        Log.d("ChatsRepo:init", "init")
-        websocket = Websocket.getInstance(this)
+        networkManager.openConnection()
+        networkManager.listenEvents(
+            ::responseParseMessage,
+            ::responseEditMessage,
+            ::responseDeleteMessage,
+            ::responseReadMessage
+        )
     }
-
 }

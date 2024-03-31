@@ -9,7 +9,7 @@ import com.rcompany.rchat.R
 import com.rcompany.rchat.utils.JasonStatham
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.databases.window_dataclasses.FoundUsersDataClass
-import com.rcompany.rchat.utils.network.NetworkRepo
+import com.rcompany.rchat.utils.network.NetworkManager
 import com.rcompany.rchat.utils.network.address.ServerEndpoints
 import com.rcompany.rchat.utils.network.requests.ResponseState
 import kotlinx.coroutines.CoroutineScope
@@ -33,9 +33,9 @@ class SearchViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun searchUser(login: String, from: AppCompatActivity) {
         CoroutineScope(Dispatchers.IO).launch {
-            when (val state = NetworkRepo(from.applicationContext, userRepo).get(
+            when (val state = NetworkManager(from.applicationContext, userRepo).get(
                 ServerEndpoints.SEARCH_USER.toString(),
-                login
+                mapOf("match_str" to login)
             )) {
                 is ResponseState.Success -> {
                     withContext(Dispatchers.Main) {

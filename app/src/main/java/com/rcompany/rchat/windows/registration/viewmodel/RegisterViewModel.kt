@@ -15,7 +15,7 @@ import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.databases.window_dataclasses.AuthDataClass
 import com.rcompany.rchat.windows.authorization.AuthWindow
 import com.rcompany.rchat.utils.databases.window_dataclasses.RegisterDataClass
-import com.rcompany.rchat.utils.network.NetworkRepo
+import com.rcompany.rchat.utils.network.NetworkManager
 import com.rcompany.rchat.utils.network.address.ServerEndpoints
 import com.rcompany.rchat.utils.network.requests.ResponseState
 import com.rcompany.rchat.utils.network.token.Tokens
@@ -49,7 +49,7 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
      */
     fun onRegisterClicked(from: AppCompatActivity, data: RegisterDataClass) {
         CoroutineScope(Dispatchers.IO).launch {
-            val networkRepo = NetworkRepo(from.applicationContext, userRepo)
+            val networkRepo = NetworkManager(from.applicationContext, userRepo)
             when (val state = networkRepo.post(
                 ServerEndpoints.REGISTER.toString(),
                 data.toMap(),

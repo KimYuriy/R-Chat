@@ -1,7 +1,8 @@
 package com.rcompany.rchat.windows.messages.adapter.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
-import com.rcompany.rchat.utils.databases.chats.ReceivedMessageDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.MessageDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.incoming.ReceivedNewMessageDataClass
 
 /**
  * Класс для сравнения двух массивов сообщений
@@ -9,8 +10,8 @@ import com.rcompany.rchat.utils.databases.chats.ReceivedMessageDataClass
  * @property newArray новый массив сообщений типа [ArrayList]
  */
 class MessagesDiffCallback(
-    private val oldArray: ArrayList<ReceivedMessageDataClass>,
-    private val newArray: ArrayList<ReceivedMessageDataClass>
+    private val oldArray: ArrayList<MessageDataClass>,
+    private val newArray: ArrayList<MessageDataClass>
 ): DiffUtil.Callback() {
 
     /**

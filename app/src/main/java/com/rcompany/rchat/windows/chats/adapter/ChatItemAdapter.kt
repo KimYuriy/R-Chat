@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rcompany.rchat.databinding.ChatItemBinding
-import com.rcompany.rchat.utils.databases.chats.ChatDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.chats.ChatDataClass
 import com.rcompany.rchat.windows.chats.adapter.callbacks.ChatsDiffCallback
 import java.util.Base64
 

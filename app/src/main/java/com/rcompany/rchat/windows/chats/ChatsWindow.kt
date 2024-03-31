@@ -9,6 +9,7 @@ import com.rcompany.rchat.utils.databases.chats.ChatsDB
 import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
+import com.rcompany.rchat.utils.network.NetworkManager
 import com.rcompany.rchat.windows.chats.adapter.ChatItemAdapter
 import com.rcompany.rchat.windows.chats.viewmodel.ChatsViewModel
 import com.rcompany.rchat.windows.chats.viewmodel.ChatsViewModelFactory
@@ -25,9 +26,10 @@ class ChatsWindow : AppCompatActivity() {
         b = ChatsWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
+        val userRepository = UserRepo.getInstance(UserDB.getInstance(applicationContext))
         val factory = ChatsViewModelFactory(
-            ChatsRepo.getInstance(ChatsDB.getInstance(applicationContext)),
-            UserRepo.getInstance(UserDB.getInstance(applicationContext))
+            ChatsRepo.getInstance(ChatsDB.getInstance(), NetworkManager(applicationContext, userRepository)),
+            userRepository
         )
         vm = ViewModelProvider(this, factory)[ChatsViewModel::class.java]
 

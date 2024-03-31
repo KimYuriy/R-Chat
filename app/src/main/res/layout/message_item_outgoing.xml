@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="5dp">
+
+    <LinearLayout
+        android:id="@+id/llRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/message_background">
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:maxWidth="300dp"
+            android:padding="3dp"
+            android:text="Message"
+            android:textColor="?attr/textColor"
+            android:textSize="@dimen/sTextSize" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMediaFiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tvMessage"
+            app:layout_constraintBottom_toTopOf="@id/tvTime"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3" />
+
+        <LinearLayout
+            android:id="@+id/llOtherFiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/rvMediaFiles"
+            app:layout_constraintBottom_toTopOf="@id/tvTime" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:paddingBottom="3dp"
+            android:text="10.01.2024 21:14"
+            android:textColor="?attr/textColor"
+            android:textSize="@dimen/xxsTextSize"
+            android:textStyle="italic" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package com.rcompany.rchat.utils.network.token
 
 import android.util.Log
-import com.rcompany.rchat.utils.databases.user.UserDataClass
+import com.rcompany.rchat.utils.databases.user.dataclasses.UserDataClass
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 import java.util.Base64

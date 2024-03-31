@@ -1,4 +1,4 @@
-package com.rcompany.rchat.utils.databases.user
+package com.rcompany.rchat.utils.databases.user.dataclasses
 
 import org.json.JSONObject
 
