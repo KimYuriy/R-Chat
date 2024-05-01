@@ -7,17 +7,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rcompany.rchat.databinding.ChatsWindowBinding
 import com.rcompany.rchat.utils.databases.chats.ChatsDB
 import com.rcompany.rchat.utils.databases.chats.ChatsRepo
+import com.rcompany.rchat.utils.databases.chats.dataclasses.chats.incoming.ChatDataClass
 import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.network.NetworkManager
 import com.rcompany.rchat.windows.chats.adapter.ChatItemAdapter
+import com.rcompany.rchat.windows.chats.interfaces.ChatItemInterface
 import com.rcompany.rchat.windows.chats.viewmodel.ChatsViewModel
 import com.rcompany.rchat.windows.chats.viewmodel.ChatsViewModelFactory
 
 /**
  * Класс окна чатов типа [AppCompatActivity]
  */
-class ChatsWindow : AppCompatActivity() {
+class ChatsWindow : AppCompatActivity(), ChatItemInterface {
     private lateinit var b: ChatsWindowBinding
     private lateinit var vm: ChatsViewModel
 
@@ -38,7 +40,8 @@ class ChatsWindow : AppCompatActivity() {
          */
         val adapter = ChatItemAdapter(
             ArrayList(),
-            vm.getUserData()!!.publicId,
+            vm.getUserMetaData()!!.userId,
+            this
         )
         b.rvChats.layoutManager = LinearLayoutManager(this)
         b.rvChats.adapter = adapter
@@ -54,12 +57,16 @@ class ChatsWindow : AppCompatActivity() {
          * Нажатие кнопки поиска пользователя
          */
         b.ibNewChat.setOnClickListener {
-            vm.openSearchWindow(this@ChatsWindow)
+            vm.showPopupMenu(this@ChatsWindow, it)
         }
 
         /**
          * Установка имени текущего пользователя
          */
-        b.tvLogin.text = vm.getUserData()!!.publicId
+        b.tvLogin.text = vm.userData?.first_name
+    }
+
+    override fun onLongClicked(chat: ChatDataClass) {
+        vm.showBottomSheetDialog(this@ChatsWindow, chat)
     }
 }

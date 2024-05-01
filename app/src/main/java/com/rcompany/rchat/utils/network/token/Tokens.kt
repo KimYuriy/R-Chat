@@ -1,7 +1,7 @@
 package com.rcompany.rchat.utils.network.token
 
 import android.util.Log
-import com.rcompany.rchat.utils.databases.user.dataclasses.UserDataClass
+import com.rcompany.rchat.utils.databases.user.dataclasses.UserMetaDataClass
 import org.json.JSONObject
 import java.nio.charset.StandardCharsets
 import java.util.Base64
@@ -14,9 +14,9 @@ class Tokens(private val token: JSONObject) {
 
     /**
      * Функция получения данных пользователя по токену
-     * @return данные пользователя типа [UserDataClass]
+     * @return данные пользователя типа [UserMetaDataClass]
      */
-    fun parseToken(public_id: String? = null): UserDataClass {
+    fun parseToken(public_id: String? = null): UserMetaDataClass {
         Log.d("Tokens:parseToken", token.toString())
         val encodedAccessToken = token["access_token"] as String
         val encodedRefreshToken = token["refresh_token"] as String
@@ -27,8 +27,10 @@ class Tokens(private val token: JSONObject) {
         Log.d("Tokens:parseToken", "Encoded access token: $encodedAccessToken")
         Log.d("Tokens:parseToken", "Encoded refresh token: $encodedRefreshToken")
         Log.d("Tokens:parseToken", "Access token lifetime: $accessTokenLifetime")
-        return UserDataClass(
+        Log.d("Tokens:parseToken", "Decoded access token: $decodedAccessToken")
+        return UserMetaDataClass(
             publicId,
+            decodedAccessToken["user_id"].toString(),
             encodedAccessToken,
             encodedRefreshToken,
             accessTokenLifetime

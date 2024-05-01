@@ -40,13 +40,13 @@ sealed interface ResponseState {
          */
         var errorText: String
         init {
-
             /**
              * Установка текста ошибки
              */
             errorText = when (code) {
                 500 -> context.getString(R.string.internal_server_error_text)
                 -1 -> response
+                422 -> JSONObject(response).toString(2)
                 else -> getErrorExplanation(context, JSONObject(response)["detail"] as String)
             }
             Log.e("ResponseState:Failure", "Code: $code, error: $errorText")

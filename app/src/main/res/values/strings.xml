@@ -25,8 +25,8 @@
     <string name="you_text">You: </string>
     <string name="enter_message_text">Enter message</string>
     <string name="send_text">Send</string>
-    <string name="new_chat_menu_text">New chat...</string>
-    <string name="new_group_chat_menu_text">New group chat...</string>
+    <string name="new_chat_menu_text">New private chat</string>
+    <string name="new_group_chat_menu_text">New group chat</string>
     <string name="search_user_hint">User\'s login or e-mail</string>
     <string name="wip_text">Work in progress</string>
     <string name="ok_text">Ok</string>
@@ -41,5 +41,6 @@
     <string name="access_forbidden_text">Access forbidden</string>
     <string name="wrong_auth_data_text">Wrong data for authorization</string>
     <string name="unexpected_error_text">Unexpected error</string>
-    <string name="users_not_found_text">Пользователи не найдены!</string>
+    <string name="users_not_found_text">Users not found!</string>
+    <string name="successfully_authorized_text">You successfully authorized!</string>
 </resources>

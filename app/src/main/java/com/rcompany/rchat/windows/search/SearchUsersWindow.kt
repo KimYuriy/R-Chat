@@ -5,8 +5,11 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rcompany.rchat.databinding.SearchUsersWindowBinding
+import com.rcompany.rchat.utils.databases.chats.ChatsDB
+import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.databases.user.UserDB
 import com.rcompany.rchat.utils.databases.user.UserRepo
+import com.rcompany.rchat.utils.network.NetworkManager
 import com.rcompany.rchat.windows.search.adapter.FoundUsersAdapter
 import com.rcompany.rchat.windows.search.viewmodel.SearchViewModel
 import com.rcompany.rchat.windows.search.viewmodel.SearchViewModelFactory
@@ -22,8 +25,13 @@ class SearchUsersWindow : AppCompatActivity() {
         b = SearchUsersWindowBinding.inflate(layoutInflater)
         setContentView(b.root)
 
+        val userRepo = UserRepo.getInstance(UserDB.getInstance(applicationContext))
         val factory = SearchViewModelFactory(
-            UserRepo.getInstance(UserDB.getInstance(applicationContext))
+            ChatsRepo.getInstance(
+                ChatsDB.getInstance(),
+                NetworkManager(applicationContext, userRepo)
+            ),
+            userRepo
         )
         vm = ViewModelProvider(this, factory)[SearchViewModel::class.java]
 
@@ -42,7 +50,7 @@ class SearchUsersWindow : AppCompatActivity() {
         }
 
         /**
-         * нажатие кнопки поиска пользователей
+         * Нажатие кнопки поиска пользователей
          */
         b.ibSearchPerson.setOnClickListener {
             vm.searchUser(

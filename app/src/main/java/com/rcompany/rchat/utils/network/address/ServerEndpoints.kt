@@ -1,35 +1,49 @@
 package com.rcompany.rchat.utils.network.address
 
-import com.rcompany.rchat.utils.network.address.ServerAddress
-
 /**
  * Класс-энумератор эндпоинтов сервера, по которым будут отправляться различные запросы
  */
 enum class ServerEndpoints {
-    /**
-     * Эндпоинт авторизации
-     */
     AUTH {
         override val endpoint = "/api/auth"
     },
 
-    /**
-     * Эндпоинт получения списка пользователей
-     */
     SEARCH_USER {
         override val endpoint = "/user/find"
     },
 
-    /**
-     * Эндпоинт регистрации
-     */
     REGISTER {
         override val endpoint = "/user/create"
     },
 
-    /**
-     * Эндпоинт обновления токена
-     */
+    GET_CHATS {
+        override val endpoint = "/chat/list"
+    },
+
+    GET_MESSAGES {
+        override val endpoint = "/message/list"
+    },
+
+    USER_PROFILE {
+      override val endpoint = "/user/profile"
+    },
+
+    CHAT_CREATE {
+        override val endpoint = "/chat/create_group"
+    },
+
+    GET_CURRENT_USERS {
+        override val endpoint = "/chat/get_users"
+    },
+
+    ADD_USER_TO_CHAT {
+        override val endpoint = "/chat/add_user"
+    },
+
+    REMOVE_USER_FROM_CHAT {
+        override val endpoint = "/chat/remove_user"
+    },
+
     REFRESH_TOKEN {
         override val endpoint = "/api/refresh_tokens"
     };

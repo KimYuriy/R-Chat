@@ -3,6 +3,10 @@ package com.rcompany.rchat.utils.extensions
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import org.json.JSONObject
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 fun isInternetAvailable(context: Context): Boolean {
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -19,13 +23,10 @@ fun isInternetAvailable(context: Context): Boolean {
     return false
 }
 
-fun time2HumanReadable(dateTimeStr: String): String {
-    val regex = "^(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2}).*".toRegex()
-    val matchResult = regex.find(dateTimeStr) ?: throw IllegalArgumentException("Invalid date format")
-    val year = matchResult.groupValues[1]
-    val month = matchResult.groupValues[2].padStart(2, '0')
-    val day = matchResult.groupValues[3].padStart(2, '0')
-    val hours = matchResult.groupValues[4].padStart(2, '0')
-    val minutes = matchResult.groupValues[5].padStart(2, '0')
-    return "$day:$month:$year $hours:$minutes"
+fun formatTime(inputTime: String?): String? {
+    if (inputTime == null) return null
+    val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+    val outputFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+    val dateTime = LocalDateTime.parse(inputTime, inputFormatter)
+    return dateTime.format(outputFormatter)
 }

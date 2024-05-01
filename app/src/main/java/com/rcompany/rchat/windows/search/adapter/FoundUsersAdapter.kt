@@ -3,13 +3,13 @@ package com.rcompany.rchat.windows.search.adapter
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.rcompany.rchat.databinding.FoundUserItemBinding
 import com.rcompany.rchat.utils.databases.window_dataclasses.FoundUsersDataClass
 import com.rcompany.rchat.windows.messages.MessagesWindow
+import com.rcompany.rchat.windows.messages.dataclasses.DataForMessagesWindowDataClass
 import com.rcompany.rchat.windows.search.adapter.callbacks.FoundUsersDiffCallback
 import java.util.Base64
 
@@ -26,26 +26,9 @@ class FoundUsersAdapter(
          */
         init {
             itemView.setOnClickListener {
-                val intent = Intent(
-                    itemView.context,
-                    MessagesWindow::class.java
-                ).putExtra("public_id", array[adapterPosition].publicId)
+                val intent = Intent(itemView.context, MessagesWindow::class.java)
+                    .putExtra("chat_data", DataForMessagesWindowDataClass(public_id = array[adapterPosition].publicId))
                 itemView.context.startActivity(intent)
-            }
-
-            itemView.setOnLongClickListener {
-                b.cbSelected.visibility = View.VISIBLE
-                b.cbSelected.isChecked = true
-                true
-            }
-
-            b.cbSelected.setOnCheckedChangeListener { _, checked ->
-                b.cbSelected.isChecked = checked
-                if (checked) {
-                    //TODO: Добавить добавление ID пользователя в массив для создания беседы
-                } else {
-                    //TODO: Добавить удаление ID пользователя из массива для создания беседы
-                }
             }
         }
 
@@ -53,7 +36,7 @@ class FoundUsersAdapter(
          * Установка параметров найденного пользователя
          */
         fun bind(data: FoundUsersDataClass) {
-            b.tvLogin.text = data.publicId
+            b.tvLogin.text = data.name
 
             if (data.avatarUrl != null) {
                 val bytes = Base64.getDecoder().decode(data.avatarUrl)

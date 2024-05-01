@@ -98,6 +98,7 @@ class RegisterWindow : AppCompatActivity() {
             vm.onRegisterClicked(
                 this,
                 RegisterDataClass(
+                    b.etFirstName.text.toString(),
                     b.etEmail.text.toString(),
                     b.etPublicID.text.toString(),
                     b.etPassword.text.toString()

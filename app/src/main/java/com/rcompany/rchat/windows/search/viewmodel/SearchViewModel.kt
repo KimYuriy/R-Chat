@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.rcompany.rchat.R
 import com.rcompany.rchat.utils.JasonStatham
+import com.rcompany.rchat.utils.databases.chats.ChatsRepo
 import com.rcompany.rchat.utils.databases.user.UserRepo
 import com.rcompany.rchat.utils.databases.window_dataclasses.FoundUsersDataClass
 import com.rcompany.rchat.utils.network.NetworkManager
@@ -22,7 +23,7 @@ import org.json.JSONObject
  * Класс-контроллер окна SearchUserWindow
  * @property userRepo репозиторий данных пользователя типа [UserRepo]
  */
-class SearchViewModel(private val userRepo: UserRepo): ViewModel() {
+class SearchViewModel(private val chatsRepo: ChatsRepo, private val userRepo: UserRepo): ViewModel() {
     private val _foundUsersList = ArrayList<FoundUsersDataClass>()
     val foundUsersLiveData = MutableLiveData<ArrayList<FoundUsersDataClass>>()
 
@@ -53,6 +54,8 @@ class SearchViewModel(private val userRepo: UserRepo): ViewModel() {
         }
     }
 
+    val selectedUsersArray = chatsRepo.selectedUsersForGroupChat
+
     /**
      * Функция обновления списка пользователей
      * @param source список найденных пользователей типа [JSONObject]
@@ -66,6 +69,8 @@ class SearchViewModel(private val userRepo: UserRepo): ViewModel() {
                 else user["avatar_url"].toString()
             _foundUsersList.add(FoundUsersDataClass(
                 user["public_id"].toString(),
+                user.getString("id"),
+                user.getString("name"),
                 avatar
             ))
         }

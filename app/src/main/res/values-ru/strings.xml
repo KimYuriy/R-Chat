@@ -24,8 +24,8 @@
     <string name="you_text">Вы: </string>
     <string name="enter_message_text">Введите сообщение</string>
     <string name="send_text">Отправить</string>
-    <string name="new_chat_menu_text">Новый чат...</string>
-    <string name="new_group_chat_menu_text">Новая беседа...</string>
+    <string name="new_chat_menu_text">Новый личный чат</string>
+    <string name="new_group_chat_menu_text">Новая беседа</string>
     <string name="search_user_hint">Логин или почта пользователя</string>
     <string name="wip_text">В разработке</string>
     <string name="ok_text">Ок</string>
@@ -41,4 +41,5 @@
     <string name="wrong_auth_data_text">Введены неверные данные для авторизации</string>
     <string name="unexpected_error_text">Возникла непредвиденная ошибка</string>
     <string name="users_not_found_text">Пользователи не найдены!</string>
+    <string name="successfully_authorized_text">Вы успешно вошли в аккаунт!</string>
 </resources>

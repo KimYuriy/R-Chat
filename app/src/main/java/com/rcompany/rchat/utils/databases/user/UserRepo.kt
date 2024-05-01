@@ -1,6 +1,7 @@
 package com.rcompany.rchat.utils.databases.user
 
 import com.rcompany.rchat.utils.databases.user.dataclasses.UserDataClass
+import com.rcompany.rchat.utils.databases.user.dataclasses.UserMetaDataClass
 
 /**
  * Репозиторий БД пользователя.
@@ -31,27 +32,34 @@ class UserRepo private constructor(private val userDB: UserDB) {
 
     /**
      * Функция получения данных пользователя.
-     * Вызывает метод [getUserData] из БД пользователя
+     * Вызывает метод [getUserMetaData] из БД пользователя
      * @return данные пользователя из БД пользователя
      */
-    fun getUserData() = userDB.getUserData()
+    fun getUserMetaData() = userDB.getUserMetaData()
 
     /**
      * Функция сохранения данных пользователя
-     * @param userData данные пользователя типа [UserDataClass]
+     * @param userData данные пользователя типа [UserMetaDataClass]
      */
-    fun saveUserData(userData: UserDataClass) = userDB.saveUserData(userData)
+    fun saveUserMetaData(userData: UserMetaDataClass) = userDB.saveUserMetaData(userData)
 
     /**
      * Функция загрузки данных пользователя
      */
-    fun loadUserData() = userDB.loadUserData()
+    fun loadUserMetaData() {
+        userDB.loadUserMetaData()
+    }
+
+    fun saveUserData(data: UserDataClass) = userDB.saveUserData(data)
+
+    fun getUserData() = userDB.getUserData()
+
 
     /**
      * Функция проверки авторизации пользователя.
-     * Вызывается метод [getUserData] и проверяется полученное значение - если оно не равно null,
+     * Вызывается метод [getUserMetaData] и проверяется полученное значение - если оно не равно null,
      * то пользователь считается авторизованным, иначе - не авторизован
      * @return true/false типа [Boolean]
      */
-    fun isUserAuthorized() = getUserData() != null
+    fun isUserAuthorized() = getUserMetaData() != null
 }

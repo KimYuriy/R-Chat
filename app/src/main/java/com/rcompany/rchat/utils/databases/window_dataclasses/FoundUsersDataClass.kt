@@ -7,5 +7,7 @@ package com.rcompany.rchat.utils.databases.window_dataclasses
  */
 data class FoundUsersDataClass(
     var publicId: String,
+    var userId: String,
+    var name: String,
     var avatarUrl: String?
 )

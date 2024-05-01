@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_chat">
+        <item
+            android:id="@+id/showUsers"
+            android:title="Показать пользователей" />
+        <item
+            android:id="@+id/editInfo"
+            android:title="Редактировать информацию" />
+        <item
+            android:id="@+id/leaveChat"
+            android:title="Покинуть беседу" />
+    </group>
+    <group
+        android:id="@+id/common">
+        <item
+            android:id="@+id/settings"
+            android:title="Настройки" />
+    </group>
+</menu>

@@ -42,35 +42,40 @@ class Websocket {
     /**
      * Функция открытия соединения
      */
-    fun openConnection() {
+    fun openConnection(headers: Map<String, List<String>> = mapOf()) {
         val options = IO.Options().apply {
             reconnection = true
             path = "/socks"
             transports = arrayOf("websocket")
+            extraHeaders = headers
         }
         socket = IO.socket("${ServerAddress.value}/", options)
         socket!!.connect()
         if (socket!!.connected()) Log.d("Websocket:openConnection", "Connected")
+        else Log.e("Websocket:openConnection", "Connection error")
     }
 
     fun listenEvents(
         parseNewMessage: (JSONObject) -> Unit,
         editMessage: (JSONObject) -> Unit,
         deleteMessage: (JSONObject) -> Unit,
-        readMessage: (JSONObject) -> Unit
+        readMessage: (JSONObject) -> Unit,
+        addedInChat: (JSONObject) -> Unit
     ) {
         socket!!.on(Socket.EVENT_CONNECT_ERROR) {
             Log.e("Websocket:openConnection", "Connect error: ${it[0]}")
         }
 
         GlobalScope.launch(Dispatchers.IO) {
-            socket!!.on("_new_message_") { args -> parseNewMessage(args[0] as JSONObject) }
+            socket!!.on("_new_message_") { args -> parseNewMessage(JSONObject(args[0] as String)) }
 
-            socket!!.on("_edit_message_") { args -> editMessage(args[0] as JSONObject) }
+            socket!!.on("_edit_message_") { args -> editMessage(JSONObject(args[0] as String)) }
 
-            socket!!.on("_delete_message_") { args -> deleteMessage(args[0] as JSONObject) }
+            socket!!.on("_delete_message_") { args -> deleteMessage(JSONObject(args[0] as String)) }
 
-            socket!!.on("_read_message_") { args -> readMessage(args[0] as JSONObject) }
+            socket!!.on("_read_message_") { args -> readMessage(JSONObject(args[0] as String)) }
+
+            socket!!.on("_added_in_chat_") { args -> addedInChat(JSONObject(args[0] as String))}
         }
     }
 

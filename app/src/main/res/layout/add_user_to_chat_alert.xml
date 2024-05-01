@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Выберите роль пользователя"
+        android:textSize="@dimen/mTextSize" />
+
+    <RadioGroup
+        android:id="@+id/rgUserRole"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbCommon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Обычный" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbObserver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Наблюдатель" />
+    </RadioGroup>
+</LinearLayout>
+
+    <!--    binding.rgChatType.setOnCheckedChangeListener { group, checkedId ->-->
+    <!--    when (checkedId) {-->
+    <!--    R.id.rbPrivate -> binding.llWorkTime.visibility = View.GONE-->
+    <!--    R.id.rbWork -> binding.llWorkTime.visibility = View.VISIBLE-->
+    <!--    }-->
+    <!--    }-->

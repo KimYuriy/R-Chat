@@ -1,8 +1,7 @@
 package com.rcompany.rchat.windows.messages.adapter.callbacks
 
 import androidx.recyclerview.widget.DiffUtil
-import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.MessageDataClass
-import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.incoming.ReceivedNewMessageDataClass
+import com.rcompany.rchat.utils.databases.chats.dataclasses.messages.incoming.MessageDataClass
 
 /**
  * Класс для сравнения двух массивов сообщений

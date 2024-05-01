@@ -20,6 +20,7 @@ import com.rcompany.rchat.utils.network.requests.ResponseState
 import com.rcompany.rchat.utils.network.token.Tokens
 import com.rcompany.rchat.windows.chats.ChatsWindow
 import com.rcompany.rchat.windows.registration.RegisterWindow
+import com.rcompany.rchat.windows.splash.SplashWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -66,14 +67,15 @@ class AuthViewModel(private val userRepo: UserRepo): ViewModel() {
         CoroutineScope(Dispatchers.IO).launch {
             when (val state = NetworkManager(from.applicationContext, userRepo).post(
                 ServerEndpoints.AUTH.toString(),
-                data.toMap()
+                data.toMap(),
+                false
             )) {
                 is ResponseState.Success -> {
                     Log.d("AuthViewModel:onLoginClicked", "Auth successful")
                     val userData = Tokens(state.data).parseToken()
                     withContext(Dispatchers.Main) {
-                        userRepo.saveUserData(userData)
-                        from.startActivity(Intent(from, ChatsWindow::class.java))
+                        userRepo.saveUserMetaData(userData)
+                        from.startActivity(Intent(from, SplashWindow::class.java))
                         from.finish()
                     }
                 }

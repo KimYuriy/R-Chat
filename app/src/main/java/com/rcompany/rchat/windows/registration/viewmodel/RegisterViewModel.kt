@@ -20,6 +20,7 @@ import com.rcompany.rchat.utils.network.address.ServerEndpoints
 import com.rcompany.rchat.utils.network.requests.ResponseState
 import com.rcompany.rchat.utils.network.token.Tokens
 import com.rcompany.rchat.windows.chats.ChatsWindow
+import com.rcompany.rchat.windows.splash.SplashWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,6 +54,7 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
             when (val state = networkRepo.post(
                 ServerEndpoints.REGISTER.toString(),
                 data.toMap(),
+                false
             )) {
                 is ResponseState.Success -> {
                     Log.d("RegisterViewModel:onRegisterClicked", "Registration successful")
@@ -66,13 +68,14 @@ class RegisterViewModel(private val userRepo: UserRepo): ViewModel() {
                         when (val authState = networkRepo.post(
                             ServerEndpoints.AUTH.toString(),
                             authData,
+                            false
                         )) {
                             is ResponseState.Success -> {
                                 Log.d("RegisterViewModel:onRegisterClicked", "Authorization successful")
                                 val userData = Tokens(authState.data).parseToken()
                                 withContext(Dispatchers.Main) {
-                                    userRepo.saveUserData(userData)
-                                    from.startActivity(Intent(from, ChatsWindow::class.java))
+                                    userRepo.saveUserMetaData(userData)
+                                    from.startActivity(Intent(from, SplashWindow::class.java))
                                     from.finish()
                                 }
                             }
